@@ -1,0 +1,72 @@
+با استفاده از automapper میتوان مدل ها را به یکدیگر تبدیل کرد
+مراحل انجام کار
+1- نصب پکیج AutoMapper از nuget
+2- ایجاد یک کلاس به شکل زیر جهت تبدیل ArticleVM به ArticleInputVM و بالعکس به عنوان نمونه
+public class MappingProfile :   Profile
+    {
+        public MappingProfile()
+        {
+            CreateMap<ArticleVM, ArticleInputVM>();
+            CreateMap<ArticleInputVM, ArticleVM>();
+        }
+    }
+3- تنظیمات dependencyinjection در strartup به شکل زیر
+var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+4- استفاده از آن به شکل زیر
+public class UserController : Controller {
+     private readonly IMapper _mapper;
+     public UserController(IMapper mapper) {
+         _mapper = mapper;
+     }
+
+     public async Task<IActionResult> Edit(string id) {
+
+         var model = _mapper.Map<ArticleVM>(ArticleInputVM);
+     }
+ }
+--------------------------------------------
+نکته: جهت تنظیم اینکه یک فیلد را map نکد از کد زیر استفده میشود
+CreateMap<ArticleVM, ArticleInputVM>().ForMember(x => x.Picture, opt => opt.Ignore());
+اما جهت تنظیم اینکه چند فیلد را map نکند از کد زیر استفاده میشود
+public class MappingProfile :   Profile
+    {
+        public MappingProfile()
+        {
+            CreateMap<ArticleVM, ArticleInputVM>().IgnorePictureAndSmallPicture();
+            //CreateMap<ArticleVM, ArticleInputVM>().ForMember(x => x.SmallPicture, opt => opt.Ignore());
+            CreateMap<ArticleInputVM, ArticleVM>();
+        }
+    }
+    public static class IgnoreReadOnlyExtensions
+    {
+        public static IMappingExpression<TSource, TDestination> IgnorePictureAndSmallPicture<TSource, TDestination>(
+                   this IMappingExpression<TSource, TDestination> expression)
+        {
+            var sourceType = typeof(TSource);
+
+            foreach (var property in sourceType.GetProperties())
+            {
+                if (property.Name == "Picture" || property.Name == "SmallPicture")
+                {
+                    expression.ForMember(property.Name, opt => opt.Ignore());
+                }
+            }
+            return expression;
+        }
+    }
+
+
+
+
+
+
+---------------------------
+مرجع: ProEdu
+
+

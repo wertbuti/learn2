@@ -1,0 +1,9 @@
+دستور If
+IF(1=1)
+Begin
+Select * FRom t1
+End
+Else
+Begin
+Select * From t2
+End

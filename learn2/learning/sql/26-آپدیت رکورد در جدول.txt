@@ -1,0 +1,3 @@
+آپدیت رکورد در جدول
+Update t1 Set
+col1=1,col2='akbar' where col3 = 10

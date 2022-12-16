@@ -1,0 +1,3 @@
+<label for="rdbtnWoman">زن</label> @Html.RadioButton("Sex",false,new { @id= "rdbtnWoman" })
+
+<label for="rdbtnMan">مرد</label>   @Html.RadioButton("Sex",true, new { @id = "rdbtnMan" })

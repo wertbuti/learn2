@@ -1,0 +1,1 @@
+<input type="date" name="BirthDate" id="txtBirthDate"  value="@Model.BirthDate.ToString("yyyy-MM-dd")" />

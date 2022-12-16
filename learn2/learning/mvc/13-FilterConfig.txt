@@ -1,0 +1,68 @@
+برای فیلتر کردن و یا انجام کاری قبل و پس از کار دیگر استفاده میشود
+4 نو فیلتر داریم
+
+فیلترهای اجازه دسترسی:این فیلتر عملیات اهراز هویت را انجام داده و قبل از اجرای action method صلاحیت ورود کاربر را می سنجد
+
+فیلترهای اجرایی:این فیلتر، برخی دستورات و عملیات ها را قبل و بعد از اجرای یک متد اجرایی action method، اجرا می کند.
+
+فیلترهای نتیجه: این فیلتر نیز چند دستور یا عملیات را قبل و بعد از اجرا شدن View Result، انجام می دهد.
+
+فیلترهای استثناءها: این فیلتر، در صورت بروز یک استثناء یا خطای غیر مدیریت شده در هنگام اجرای پروسه های ASP.Net MVC، یک سری دستورات را اجرا می کند.
+
+در سه سطح کل پروژه، کنترلر و متد کنترلر میشود از آن استفاده کرد
+در سطح کل به این شکل: filters.Add(new HandleErrorAttribute());   اسم فیلتر HandleError است
+در سطح کنترلر و متد به این شکل: [HandleError]
+
+نکته: فیلتر HandleError  در هنگام بروز خطا در وب سایت صفحه موجود در آدرس زیر را به کاربر نشان میدهد
+Views/Shared/Error.cshtml
+
+
+برای فعال شدن فیلتر استثنا مثل فیلتر HandleError  باید در web.config در زیر شاخه <system.web> کد زیر را اضافه کرد
+<customErrors mode="On" />
+
+تعریف یک نمونه از فیلتر استثنا که از فیلتر دات نت به اسم HandleError  ارث میبرد:
+class MyFilterExAttribute : HandleErrorAttribute//FilterAttribute, IExceptionFilter
+    {
+        public override void OnException(ExceptionContext filterContext)
+        {
+            Log(filterContext.Exception);
+            base.OnException(filterContext);
+        }
+
+        private void Log(Exception exception)
+        {
+            //log exception here..
+
+        }
+    }
+--------------------------------
+مراجعه شود به پروژه MyTest\Univ_WebSite_MVC_Net_Ent
+--------------------------------------
+نکته:
+نام هر کلاس خاصیت (attribute) بایستی با کلمه کلیدی Attribute پایان یابد، مثل HandleErrorAttribute. همچنین Attribute ها بایستی بدون پسوند خاصیت و درون براکت ها مثل [HandleError] به کار رود.
+------------------------------------
+چند نمونه از فیلترهای اجرایی
+1- OutputCache : این فیلتر خروجی یک متد اکشن را به مدت زمانی که ما تعیین میکنیم کش میکند و دیگر به 
+سراغ انجام دستورات داخل متد نمیرود تا آن مدت زمان تمام شود مثال زیر:
+ public ActionResult Index()
+        {
+            ...
+        }
+---------------------------------------------------------------------
+ارث بری ساخت فیلتر
+1- برای فیلتر خطایی : FilterAttribute, IExceptionFilter -------- یا --------  HandleErrorAttribute
+
+2- برای فیلتر اجرایی : FilterAttribute, IActionFilter -------- یا --------  ActionFilterAttribute
+
+3- برای فیلتر نتیجه : FilterAttribute, IResultFilter -------- یا --------  ActionFilterAttribute
+
+4- برای فیلتر اجازه دسترسی : FilterAttribute, IAuthorizationFilter -------- یا --------  AuthorizeAttribute
+-----------------------------------------------------------------
+مراجعه شود به پروژه MyTest\Univ_WebSite_MVC_Net_Ent
+
+
+
+
+
+
+

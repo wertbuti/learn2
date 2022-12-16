@@ -1,0 +1,6 @@
+توابع فرمتینگ
+Trim - حذف زوائد         Select Trim('   ab ') خروجی 'ab'
+RTrim - حذف زوائد از راست      Select RTrim('   ab ') خروجی 'ab    '
+LTrim- حذف زوائد از چپ     Select LTrim('   ab ') خروجی '   ab'
+Upper- تبدیل به حروف بزرگ Select Upper('ab') خروجی AB
+Lower- تبدیل به حروف کوچک  Select Lower('AB') خروجی ab

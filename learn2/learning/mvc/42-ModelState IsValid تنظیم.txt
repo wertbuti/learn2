@@ -1,0 +1,17 @@
+ModelState.IsValid برای چک کردن اینکه کاربر تمام فیلدهای لازم را پر کرده است و به سرور فرستاده است کاربرد دارد
+اما اگر ما بعنوان نمونه دو مدل داشته باشیم و بخواهیم فقط یک مدل توسط کاربر پرشود و فقط آن مدل را چک کنیم که آیا کاربر پر کرده ست یا نه از کد زیر استفاده میکنیم
+دو مدل نمونه ما 
+[BindProperty]
+        public ArticleInputPictureVM ArticleInputPictureVM { get; set; }
+
+        [BindProperty]
+        public ArticleVM ArticleVM { get; set; }
+
+کد چک کردن فقط مدل ArticleVM سمت سرور
+var context = new ValidationContext(ArticleVM, serviceProvider: null, items: null);
+            var results = new List<ValidationResult>();
+            if (!Validator.TryValidateObject(ArticleVM, context, results, true))
+            {
+                return RedirectToPage("./Edit");
+            }
+منبع : ProgEdu

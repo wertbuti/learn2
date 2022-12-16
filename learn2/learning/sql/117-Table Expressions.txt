@@ -1,0 +1,6 @@
+Table Expressions - عبارات جدولی
+1) Drived Table
+2) Table Variable و Temporery Table
+3) View که شامل single Table و Multi Tables میشوند
+4) In Line یعنی Table Valued Function
+5) CTE - Common Table Expression

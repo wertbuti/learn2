@@ -1,0 +1,2 @@
+ساخت view از نوع Multi tables مانند ساخت View  از نوع Single table است
+با این تفاوت که در آن از Join چند جدول استفاده میشود

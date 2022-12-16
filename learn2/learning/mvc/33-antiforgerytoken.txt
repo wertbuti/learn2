@@ -1,0 +1,13 @@
+برای امنیت صفحه های ارسالی از کلاینت به سرور است
+روش
+باید در کلاینت کد زیر را بنویسیم
+*@Html.AntiForgeryToken()
+
+
+ور در سرور بالای اکشن مربوطه کد زیر را بنویسیم
+[ValidateAntiForgeryToken]
+public ActionResult Insert(Person person, HttpPostedFileBase picture)
+{
+....
+
+----------------------------------

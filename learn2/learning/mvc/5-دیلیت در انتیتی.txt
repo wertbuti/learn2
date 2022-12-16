@@ -1,0 +1,7 @@
+public ActionResult Delete1(int personID)
+        {
+            PersonService personService = new PersonService();
+            personService.Delete(personID);
+
+            return RedirectToAction("Index");
+        }

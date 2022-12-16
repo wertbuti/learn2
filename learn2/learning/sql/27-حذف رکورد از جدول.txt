@@ -1,0 +1,2 @@
+حذف رکورد از جدول
+Delete From t1 Where col1=1

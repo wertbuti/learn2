@@ -1,0 +1,8 @@
+اگر جدولی در sql داشتیم که اسکیمایی غیر از dbo برای آن در نظر گرفته بودیم در c# بالای Model آن باید اسم اسکیما را به آن معرفی کرد
+به شکل زیر:
+اسکیماز ما Article است و اسم جدول ما MyTable است یعنی در sql همچین چیزی داریم Article.MyTable
+
+
+ [Table("MyTable", Schema = "Article")]
+    public class MyTableVM
+    {...}

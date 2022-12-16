@@ -1,0 +1,32 @@
+Exception
+استثنا (Exception) مشکلی است که در طول اجرای یک برنامه رخ می دهد.
+برای مدیریت استثناها از کلمات کلیدی زیر استفاده می شود:
+try : بلوک کدی را مشخص می کند که ممکن است در هنگام اجرا شدن، باعث بوجود آمدن استثنا شود.
+catch : استثناهایی که ممکن است در بلوک try رخ دهند توسط این بخش مدیریت می شوند (به اصطلاح گرفته می شوند).
+finally : کدهای قرار گرفته در این بلوک در هر شرایطی اجرا می شوند.
+throw : هنگامی که در اجرای برنامه خطای رخ می دهد، با استفاده از کلمه کلیدی throw می توان استثنای مرتبط با خطا را تولید می کند.
+
+
+string filePath = null;
+try
+{
+    File.Open(filePath, FileMode.Open);
+}
+catch (ArgumentNullException)
+{
+    Console.WriteLine("The informed parameter is null, please try again.");
+}
+catch (ArgumentException)
+{
+    Console.WriteLine($"The parameter: {filePath} is invalid, please try again.");
+}
+کد بالا ارز مقاله زیر آورده شده:
+https://dev.to/caiocesar/clean-code-in-c-part-5-exception-handling-4ion
+
+
+جهت ساخت exception سفارشی
+مراجعه شود به پروژه Exception_WinFormsApp_Net
+
+
+
+

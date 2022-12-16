@@ -1,0 +1,9 @@
+<input type="radio" name="rdbtn1" id="rdbtnWoman" value="0" />
+<label for="rdbtnWoman">زن</label><br>
+
+<input type="radio" name="rdbtn1" id="rdbtnMan" value="1" />
+<label for="rdbtnMan">مرد</label><br><br>
+
+باید نامها مثل هم باشند تا گروه تشکیل شود
+
+

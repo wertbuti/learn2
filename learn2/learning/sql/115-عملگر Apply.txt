@@ -1,0 +1,6 @@
+عملگر Apply
+1) Cross Apply مانند Cross Join است با این تفاوت که ساب کوئری بعد از Apply با کوئری پدر همبستگی دارد و در شرط ساب کوئری میشود از Parent
+استفاده کرد. اما ساب کوئری در Cross join با کوئری  پدر همبسته نیست
+Select * From t1 Cross Apply (Select * From t2 Where t2.id=t1.Id) t3
+2) Outer Apply تفاوت آن با Cross Apply این است که اگر به ازای هر سطر جدول اول سطری در جدول دوم نداشت یک سطر در خروجی می آورد با مقادیر جدول اول و فیلدهای
+متناظر جدول دوم را Null میگذارد چیزی شبیه Left Outer Join

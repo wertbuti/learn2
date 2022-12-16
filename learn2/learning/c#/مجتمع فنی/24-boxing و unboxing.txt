@@ -1,0 +1,7 @@
+وقتی ما یک متغیر Value Type را به یک Reference Type نسبت بدیم عملیات باکسینگ انجام شده است.
+int stackVar = 12;
+object boxedVar = stackVar;
+
+زمانی که ما یک ReferenceType را که در Heap قرار دارد رابه Value Type نسبت میدهیم unboxing میگویند
+Int unboxed = (int)boxedVar;
+			

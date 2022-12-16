@@ -1,0 +1,17 @@
+دستور Case یعنی بررسی کن
+این دستور مقادیر داخل جدول را با مقادیری که ماتعیین میکنیم جایگزین میکند
+Select *,
+Case col2
+When 1 then 10
+When 2 then 20
+Else 500
+End A
+From t1
+یا
+Select *,
+Case
+When col2 = 1 then 10
+When col2 = 2 then 20
+Else 500
+End A
+From t1

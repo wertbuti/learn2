@@ -1,0 +1,2 @@
+برای چک کردن null بودن یا نبودن یک فیلد در where از IS NULL یا IS Not Null استفاده میشود
+Select * From t1 Where col1 IS Not Null

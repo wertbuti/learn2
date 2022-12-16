@@ -1,0 +1,24 @@
+برای تغییر سایز تصویر از کلاس زیر استفاده میشود 
+ImageResizer
+
+نحوی استفاده:
+ImageResizer imageResizer = new ImageResizer(100, 100);
+            imageResizer.Resize(srcPath, despath);
+
+------------------------------------------------
+یا از کد زیر هم میشود استفاده کرد:
+کد زیر در FileHelper وجود دارد
+public static string ResizeImage(string srcPathInWwwRoot,int xSize,int ySize, IWebHostEnvironment webHostEnvironment)
+        {
+            string destPathInWwwRoot = ChangeFileName(srcPathInWwwRoot, "-small");
+
+            string srcPath = GetFullPath(srcPathInWwwRoot, webHostEnvironment);
+            string despath = GetFullPath(destPathInWwwRoot, webHostEnvironment);
+
+            ImageResizer imageResizer = new ImageResizer(xSize, ySize);
+            imageResizer.Resize(srcPath, despath);
+
+            return destPathInWwwRoot;
+        }
+
+مراجعه شود به پروژه ProgEdu

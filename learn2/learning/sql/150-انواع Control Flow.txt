@@ -1,0 +1,42 @@
+انواع Control Flow
+1- If     Else
+2- try      Catch
+3- While
+4- WaitFor
+--------------------------------
+
+ساختار دستور If
+If(x =y)
+Begin
+.....
+End
+Else
+Begin
+......
+End
+--------------------------------------------
+
+ساختار دستور Try catch
+Begin Try
+......
+End Try
+Begin Catch
+Select Error_Message(),ErrorNumber(),Error_Line()
+End Catch
+-------------------------------------
+
+ساختار دستور While
+Declare @x int=1
+While(@x<10)
+Begin
+Print @x
+Set @x +=1
+End
+-------------------------------
+
+ساختار دستور Waitfor
+Waitfor Delay '00:00:02'
+کد بالا 2 ثانیه تاخیر ایجاد میکند
+Waitfor Time '10:00:00''
+کد بالا تا ساعت 10 صبح تاخیر ایجاد میکند
+---------------------------------

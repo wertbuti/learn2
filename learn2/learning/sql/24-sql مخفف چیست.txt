@@ -1,0 +1,3 @@
+SQL - SEQUEL
+Structured English Query Language
+زبان انگلیسی پرس و جوی ساخت یافته

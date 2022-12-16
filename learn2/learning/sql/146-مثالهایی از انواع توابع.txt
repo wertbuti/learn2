@@ -1,0 +1,49 @@
+مثالی از یک تابع Scaler به همراه فراخوانی آن
+CREATE FUNCTION MyFunc
+(
+	@p1 int
+)
+RETURNS int
+AS
+BEGIN
+	Declare @myVal int
+	Select @myVal=TotalPrice From Orders Where Id=1
+	RETURN @myVal
+END
+GO
+----------
+Select dbo.MyFunc(10)
+-------------------------------------------------------------
+
+مثالی از یک تابع Table Valued از نوع Inline به همراه فراخوانی آن
+Create FUNCTION MyFunc1
+(
+	@Id int
+)
+RETURNS Table
+AS
+Return
+(
+	Select * From Orders Where Id = @Id
+)
+GO
+
+Select * From MyFunc1(1)
+----------------------------------------------------------
+مثالی از یک تابع Table Valued از نوع Multi statement به همراه فراخوانی آن
+Create FUNCTION MyFunc2
+(
+	@Id int
+)
+RETURNS 
+@MyTable Table
+(Id int,Price int)
+AS
+Begin
+Insert Into @MyTable
+Select Id,TotalPrice From Orders
+Return
+End
+
+Select * From MyFunc2(1)
+------------------------------------------------------------

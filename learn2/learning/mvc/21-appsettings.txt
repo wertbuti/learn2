@@ -1,0 +1,22 @@
+در این فایل میتوانیم کانکشن استرینگمان را وارد کنیم 2 فایل appsettings در پروژه وجود دارد
+appsettings.Development.json
+appsettings.json
+اگر متغییر enviroment مان مقدار Production داشته باشد  فایل appsettings.json در اولویت قرار میگیرد و
+اگر متغییر enviroment مان مقدار Development داشته باشد  فایل appsettings.Development.json در اولویت قرار میگیرد 
+یعنی اگر برنامه به دنبال کانکشن استرینگ باشد اول داخل فایل با اولویت بالا را میگردد اگر پیدا نکرد به فایل بعدی مراجعه میکند
+
+نمونه فایل appsettings در زیر آورده شده است
+{
+  "ConnectionStrings": {
+    "con": "Data source=.;initial catalog=univ;integrated security=true;"
+
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
+

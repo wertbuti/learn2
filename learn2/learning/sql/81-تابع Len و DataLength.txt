@@ -1,0 +1,4 @@
+تابع Len طول رشته را برمیگرداند و تابع DataLength طول بایتی رشته را برمیگرداند
+Select DataLength(N'abc') خروجی 6 است
+Select DataLength('abc') خروجی 3 است
+Select Len(N'abc') خروجی 3 است

@@ -1,0 +1,193 @@
+مسیردهی در قسمت زیر قابل تنظیم است
+App_Start/RouteConfig
+
+برای تنظیم کردن مسیردهی سایت به کار میرود
+هر مسیردهی یک اسم دارد و یک الگو دارد و یک مقدار پیش فرض دارد
+routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Person", action = "index", id = UrlParameter.Optional }
+            );
+در مثال بالا نام مسیردهی Default است الگوی مسیر دهی {controller}/{action}/{id} است و مقدار پیش فرض 
+مسیردهی controller = "Person", action = "index", id = UrlParameter.Optional  است.
+
+میتوان چند مسیردهی به برنامه اضافه کرد اما برنامه اول مسیردهی بالاتر (در کد بالاتر نوشته شده باشد) را بررسی میکند اگر با url درخواستی 
+کاربر متناظر شد که از آن استفاده میکند اما اگر متناظر نشد به مسیردهی دوم مراجعه میکند و با آن کار مسیردهی را انجام میدهد
+
+نکته: برنامه ابتدا از قسمت Application_Start() واقع در فایل Global.asax شروع به احرا میکند که در آنجا با قراخوانی مسیردهی که به شکل
+زیر انجام میگیرد جدول مسیردهی را(RouteTable) پر میکند
+RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+وقتی جدول مسیردهی پر شد موتور مسیردهی(Routing Engine) با استفاده از این جدول درخواستهای کلاینت را تحلیل میکند و کنترلر و اکشن درست را فراخوانی میکند
+-----------------------------------------------
+مسیردهی به دو شکل انجام میگیرد یا routconfig است یا attribute است. routConfig  در بالا  گفته شده اما attribute به شکل زیر است:
+1- اولا در کانفیگ برنامه کد routes.MapMvcAttributeRoutes(); را مینویسیم
+2- ثانیا بالای کنترلمان کد زیر را مینویسیم
+
+    [Route("Jom/{action}")]
+    public class HomeController : Controller
+    {
+        // GET: Home
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [Route("jom/Infert")]
+        public ActionResult Insert()
+        {
+            return View();
+        }
+....
+در مثال بالا برای دسترسی به متد index باید مسیر jom/index را وارد کرد
+برای دسترسی به متد insert باید مسیر jom/infert را انتخاب کرد
+3- همیشه مسیر بالای متد اولویت دارد به مسیر بالای کنترلر
+----------------------------------------------------------------------------------------------
+
+مسیریابی raaizor ها
+آدرس منبع -    https://www.learnrazorpages.com/razor-pages/routing
+1-مسیریابی پیش فرض:
+services.AddRazorPages()
+
+
+2- اگر بخواهیم دایرکتوری ریشه عوض بشود یعنی مثلا از pages که فولدر پیش فرض ریزور پیجها میباشد بشود Content:
+services.AddRazorPages()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.RootDirectory = "/Content";
+                }); ;
+نکته: اگر ریزور پیجها در area قرار داشته باشند نمیتوان فولدر روت انها را تغییر داد
+
+
+3- اگر میخواهیم یک صفحه ما یک پارامتر بگیرد به صورت کوئری استرینگ مثلا به این شکل
+https://localhost:44379/index?title=hello و بخواهیم به شکل زیر عمل کند
+https://localhost:44379/index/hello
+باید در بالای صفحه ریزورمان کد زیر را بنویسیم
+@page "{title}"
+به این کار Route Data میگویند
+اگر کد را به شکل زیر بنویسیم ارسال title اختیاری میشود یعنی اگر کاربر عنوانی در url وارد نکند هم صفحه بدرستی کار میکند
+@page "{title?}"  
+یا میتوان مقدار پیش فرضی برای آن تعریف کرد
+@page "{title=hello}"
+برای استفاده چند پارامتر به شکل زیر عمل میشود
+@page "{year}/{month}/{day}/{title}"
+کلمات زیر به عنوان نام پارامتر نمشود استفاده کرد:
+action - area - controller - handler - page
+مقدار پارامتر ارسالی را میتوان به شکل زیر در صفحه نشان داد
+@RouteData.Values["title"]
+روش بهتر این است که پروپرتیی در بک تعریف کرد و آنرا به فرنت انتقال داد
+برای اینکه پارامتر را مقید کنیم که حتما دیتاتایپ خاصی داشته باشد مثل کد زیر عمل میکنیم
+@page "{id:int}"
+برای اینکه پارامتر را مقید کنیم که مثلا عدد باشد و از 1000 نباید بزرگتر باشد به شکل زیر عمل میکنیم
+@page "{id:min(10000)}"
+برای اینکه مقید کنیم پارامترما حتما حروف باشد و بین 5 تا 8 رقم باشد به شکل زیر عمل میکنیم
+@page "{username:alpha:minlength(5):maxlength(8)}"
+
+4- اگر بخواهیم مسیریابی که برای کل پروژه تعریف شده در یک پیج overWrite کنیم و برای آن پیج تغییر کند در بالای صفحه کد زیر را میزنیم
+@page "/schools/sop"
+اگر بخواهیم تک مسیر باشد دیگر اسلش لازم نیست
+@page "schools"
+ولی توی area حتما اسلش لازمه اونوقت باید به شکل زیر بنویسیم
+@page "/schools"
+
+اگر بخواهیم صفحه ایی پیش فرض سایت شود باید کد زیر را بنویسیم در آن
+@page "/"
+
+5- اگر  بخواهیم صفحه ایی که در مسیر زیر است
+/Pages/Archive/post
+از طریق لینک زیر در دسترس باشد و همچنین پارامترهایش را به صورت اسلش بپذیرد
+/Pages/post
+به شکل زیر در کانفیگ پروژه عمل میکنیم
+builder.Services
+    .AddRazorPages()
+    .AddRazorPagesOptions(options =>
+    {
+        options.Conventions.AddPageRoute("/Archive/Post", "Post/{year}/{month}/{day}/{title}");
+    });
+البته مسیر قبلی هم هنوز در دسترس میباشد یعنی با /Pages/Archive/post هم میشود به صفحه دسترسی پیدا کرد
+اگر کاربر url را وارد کرد که اصلا در سایت ما وجود نداشت ما میتوانیم با کد زیر کاربر را به صفحه index مان هدایت کنیم
+به این کار catchall میگویند
+builder.Services
+    .AddRazorPages()
+    .AddRazorPagesOptions(options =>
+    {
+        options.Conventions.AddPageRoute("/index", "{*url}");
+    }
+
+
+6- برای مسیردهی area ها اگر مثلا area ایی داریم با نام Administration و میخواهیم مسیردهی کنیم به شکل زیر عمل میکنیم
+پارامتر اول نام area پارامتر دوم نام صفحه و پارامتر سوم الگویمان میباشد
+builder.Services
+    .AddRazorPages()
+    .AddRazorPagesOptions(options =>
+    {
+        options.Conventions.AddAreaPageRoute("Administration", "/index", "admin");
+    });
+البته همونطوری که در بالاتر گفته شد میتوان به صورت زیر هم در فرنت صفحه کد زیر را نوشت
+@page "/admin"
+
+
+جهت مسیردهی فولدری که داخل area است و میخواهیم نام فولدر از مسیردهی حذف شود
+مثال میخواهیم 
+https://localhost:44379/article/article/index
+تبدیل شود به 
+https://localhost:44379/article/index
+از کد زیر اسفتده میکنیم:
+options.Conventions.AddAreaFolderRouteModelConvention("Article", "/Article/", model =>
+                {
+                    foreach (var selector in model.Selectors)
+                    {
+                        var attributeRouteModel = selector.AttributeRouteModel;
+                        attributeRouteModel.Order = -1;
+                        attributeRouteModel.Template = attributeRouteModel.Template.Remove(0, "Article".Length);
+                    }
+                });
+
+
+7- ساخت لینک ریزور پیجها به دو روش
+<a asp-page="/Supplier" asp-route-id="2">Click</a>
+
+PathByPage = linkGenerator.GetPathByPage("/Supplier", null, new { id = 2 });
+        UriByPage = linkGenerator.GetUriByPage(this.HttpContext, "/Supplier", null, new { id = 2 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+Having
+برای اعمال فیلتر بر روی توابع Aggregate نمیتوان از Where استفاده کرد بجای آن از کلمه Having استفاده میشود
+Select Id_t1,Max(Id) From t2
+Group By Id_t1 
+Having Max(Id) >5
+برای ستون group شده  هم بکار میرود

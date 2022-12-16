@@ -1,0 +1,5 @@
+انواع دوره های sql server
+SQL Server Design and Development
+SQL Server Administration
+SQL Server DataWareHouse
+Business Intelligence

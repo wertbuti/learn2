@@ -1,0 +1,9 @@
+سربارگذاری عملگرها
+عملگرهای سربارگذاری شده، توابعی هستند با نام خاص به همراه کلمه کلیدی operator و یک علامت مربوط به عملگر.
+public static Box operator+ (Box b, Box c) {
+   Box box = new Box();
+   box.length = b.length + c.length;
+   box.breadth = b.breadth + c.breadth;
+   box.height = b.height + c.height;
+   return box;
+}

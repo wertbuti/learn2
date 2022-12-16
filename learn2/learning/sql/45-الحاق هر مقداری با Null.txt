@@ -1,0 +1,3 @@
+الحاق هر مقداری با Null میشود Null
+Select 'a' + Null As Col2
+خروجی کد بالا Null است

@@ -1,0 +1,5 @@
+RollUp - جمع آوری
+اگر در دستور group By کلمه With Rollup را استفاده کنیم یک سطر اضافی در خروجی اضافه میشود که
+توابع aggregate استفاده شده، برای کل خروجی در آن سطر اعمال میشود
+Select Id_t1,Max(Id) From t2
+Group By Id_t1 With Rollup

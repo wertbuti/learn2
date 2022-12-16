@@ -1,0 +1,9 @@
+public int Update(Person person)
+        {
+            UnivEntities univEntities = new UnivEntities();
+
+            univEntities.Entry(person).State = System.Data.Entity.EntityState.Modified;
+
+            return  univEntities.SaveChanges();
+
+        }

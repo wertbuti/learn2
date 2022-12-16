@@ -1,0 +1,12 @@
+نخوی استفاده از Transaction
+Begin Tran
+...
+If(x==1)
+Begin
+Commit Tran
+End
+Else
+Begin
+RollBack Tran
+End
+اگر کارها درست پیشرفت Commit و اگر خطایی مواجه شد RollBack میشود

@@ -1,0 +1,8 @@
+زبانهای XML و Json خود مفسر هستند
+-------------------------------------
+
+میتوان خروجی دستورات اس کیو ال را به فرمت XML و یا Json بدست آورد
+Select * from orders For XML Auto
+Select * from orders For XML Path
+Select * from orders For Json Auto
+Select * from orders For Json Path

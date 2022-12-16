@@ -1,0 +1,8 @@
+انواع داده های بی نام (Anonymous)
+داده هایی هستند که بدون اینکه کلاسی از قبل تعریف کنیم شی میسازیم و این نوع داده ها فقط پروپرتی خواهند داشت. متد و فیلد ندارند
+var user = new
+{
+Name = “John Doe”,
+Age = 42
+};
+Console.WriteLine(user.Name + ” – ” + user.Age + ” years old”);

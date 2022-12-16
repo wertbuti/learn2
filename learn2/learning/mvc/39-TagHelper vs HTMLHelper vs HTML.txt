@@ -1,0 +1,154 @@
+نکته: جهت نوشتن کدهای اچ تی ام ال به سه روش میتوان عمل کرد:
+1- استفاده از TagHelper
+2- استفاده از HTMLHelper
+3- استفاده از HTML معمولی
+
+
+نکته:جهت استفاده از tag helper در core باید کد زیر را در صفحه _ViewImports.cshtml کپی کنیم:
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PrjectName
+بجای PrjectName نام پروژه یمان را مینویسیم
+
+
+1- TextBox
+@Html.TextBox("myTextBox","this is value",new {@class="form-control"})
+@Html.TextBox("mytext",null,new {@class="form-control text-danger", @style="background-color: white",@placeholder="type something"})
+@Html.TextBoxFor(m=>m.Age,new {@class="form-control"})
+ <input asp-for="Name" class="form-control" />
+<input type="text" id="Name" name="Name" value="my text" class="form-control" />
+----------------------------------------------------------------------------------------------
+
+2- TextArea
+@Html.TextArea("myTextArea","this is my text",new {@class="form-control"})
+@Html.TextAreaFor(m=>m.Age,new {@class="form-control"})
+<textarea asp-for="Age" class="form-control"></textarea>
+<textarea id="Age" name="Age" class="form-control" >this is</textarea>
+----------------------------------------------------------------------------------------------
+
+3- CheckBox
+@Html.CheckBox("myCheckBox",true)
+@Html.CheckBoxFor(m=>m.IsNative)
+<input type="checkbox" checked="checked" value="true" id="IsNative" name="ISNative" />
+<input name="IsNative" type="hidden" value="false" />
+----------------------------------------------------------------------------------------------
+
+4- RadioButton
+@Html.RadioButton("Gender","FeMale")
+@Html.RadioButtonFor(m=>m.Gender,"Male")
+<input asp-for="Gender" type="radio" value="Male"/>
+<input type="radio" id="Gender" name="Gender" checked="checked" value="Male" />
+----------------------------------------------------------------------------------------------
+
+5- DropDownList
+@Html.DropDownList("myDropDown",new SelectList(Enum.GetValues(typeof(Gender))),"Select Gender",new {@class="form-control"})
+@Html.DropDownListFor(m=>m.Gender,new SelectList(Enum.GetValues(typeof(Gender))),"select Gendr",new {@class="form-control"})
+@{
+        IEnumerable<string> strList = new List<string> { "Male", "Female" };
+    }
+@Html.DropDownListFor(m=>m.Gender,new SelectList(strList,strList.FirstOrDefault()),"Select Genderrrr",new {@class="form-control"})
+<select asp-for="Gender" asp-items="@new SelectList(Enum.GetValues(typeof(Gender)))" class="form-control"></select>
+<select id=x name=x class="form-control">
+        <option>select</option>
+        <option>11111</option>
+        <option>22222</option>
+</select>
+نمونه کد پر کردن لیست
+در بک کد زیر را مینویسیم
+var articleTopicList = await _unitOfWork.ArticleTopicService.GetListAsync();
+ViewData["ArticleTopicID"] = new SelectList(articleTopicList, "ArticleTopicID", "Name");
+
+در فرنت کد زیر را مینویسیم
+<select asp-for="ArticleVM.ArticleTopicID" class ="form-control" asp-items="ViewBag.ArticleTopicID">
+<option disabled selected>--</option>
+</select>
+----------------------------------------------------------------------------------------------
+
+6- ListBox
+@Html.ListBox("Select Skills",new SelectList(Enum.GetValues(typeof(Gender))))
+@Html.ListBoxFor(m=>m.Gender,new SelectList(Enum.GetValues(typeof(Gender))))
+<select asp-for="Gender" asp-items="@new SelectList(Enum.GetValues(typeof(Gender)))" multiple></select>
+<select id="x" name="x" multiple="multiple">
+        <option>select</option>
+        <option>1111111</option>
+        <option>2222222</option>
+    </select>
+
+//نمونه با ویودیتا
+ <select asp-for="ArticleVM.ArticleTopicID"
+                                    class="btn btn-outline-primary dropdown-toggle col-12 text-left"
+                                    asp-items="ViewBag.ArticleTopicList">
+<option disabled selected>--</option>
+                            </select>
+در بک
+var articleTopicList = await _unitOfWork.ArticleTopicService.GetListAsync();
+            ViewData["ArticleTopicList"] = new SelectList(articleTopicList, "ArticleTopicID", "Name");
+
+
+//نمونه با مدل
+ <select asp-for="ArticleVM.ArticleTopicID"
+                                    class="btn btn-outline-primary dropdown-toggle col-12 text-left"
+                                    asp-items="@(new SelectList(Model.ArticleTopicVMList, nameof(ArticleTopicVM.ArticleTopicID), nameof(ArticleTopicVM.Name)))">
+                                    
+                                <option disabled selected>--</option>
+                            </select>
+در بک
+ArticleTopicVMList = await _unitOfWork.ArticleTopicService.GetListAsync();
+
+منبع ProgEdu
+----------------------------------------------------------------------------------------------
+
+7- Hidden
+@Html.Hidden("studentId")
+@Html.HiddenFor(m=>m.Id)
+<input asp-for="ArticleTopicID" type="hidden" />
+<input type="hidden" id=x name=x value=1 />
+----------------------------------------------------------------------------------------------
+
+8- Password
+@Html.Password("Age")
+@Html.PasswordFor(m=>m.Age)
+<input asp-for="Age" type="password" />
+<input id="x" name="x" type="password" />
+----------------------------------------------------------------------------------------------
+
+9- Display
+@Html.Display("Age")
+@Html.DisplayFor(m=>m.Age)
+@Model.Age
+----------------------------------------------------------------------------------------------
+
+10- Label 
+@Html.Label("Age","seeeeen")
+@Html.LabelFor(m=>m.Age)
+@Html.LabelFor(m=>m.Age,"aaaaaaa")
+<label asp-for="Age"></label>
+<label for="Age"></label>
+----------------------------------------------------------------------------------------------
+
+11- Editor
+@Html.Editor("Id")
+@Html.EditorFor(m=>m.Gender)
+ <input asp-for="Id" />
+----------------------------------------------------------------------------------------------
+
+12- Form
+@using (Html.BeginForm("Insert", "Galery", FormMethod.Post))
+    {
+    }
+<form asp-controller="Galery" asp-action="Insert" method="post">hi</form>
+<form action="/Galery/Insert" method="post"></form>
+----------------------------------------------------------------------------------------------
+
+13- ActionLink
+@Html.ActionLink("link to somewhere", "Galery","Insert",new {id=@Model.Id})
+<a asp-controller="Galery" asp-action="Insert" asp-route-id=@Model.Id>Link to somewhere</a>
+ <a asp-page="/Galery/Insert" asp-route-id="@Model.Id">Link to someWhere</a>
+<a href="/Galery/Insert/@Model.Id" >link to somewhere</a>
+------------------------------------------------------------------------------
+
+14- انتخاب فایل
+<input class="btn btn-sm btn-outline-primary" type="button" id="loadFileXml" value="انتخاب تصویر"
+                            onclick="document.getElementById('file').click();" />
+                            <input type="file" style="display:none;" id="file" name="file"/>
+-------------------------------------------------------------------------------------------
+    

@@ -1,0 +1,17 @@
+Dictionary چیست ؟
+با استفاده از Dictionary می توانیم یک آرایه ای از اطلاعات داشته باشیم که به صورت key و Value میباشد
+ Dictionary<string, int> dictionary = new Dictionary<string, int>();
+        dictionary.Add("apple", 1);
+        dictionary.Add("windows", 5);
+
+
+
+int value = dictionary["apple"];
+
+
+
+
+if (!dictionary.ContainsKey("acorn"))
+        {
+            Console.WriteLine(false);
+        }

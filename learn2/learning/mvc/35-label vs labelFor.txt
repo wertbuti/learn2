@@ -1,0 +1,7 @@
+@Html.Label("UserName")
+
+
+@Html.LabelFor(m=>m.InputModel.UserName)
+
+
+ <label asp-for=InputModel.UserName></label>

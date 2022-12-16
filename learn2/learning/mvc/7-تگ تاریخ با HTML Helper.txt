@@ -1,0 +1,5 @@
+@Html.TextBoxFor(m => m.BirthDate, new { @type = "date", @class = "form-control",Value="2022-03-01" })
+
+یا
+
+@Html.TextBox("BirthDate","2020-01-01",new { type="date" })

@@ -1,0 +1,13 @@
+Delegate
+delegate  یک اشاره گر به توابع میباشد. با اسفاده از آن می توان از یک تابع به عنوان پارامتر تابعی دیگر استفاده کرد.
+
+
+event
+رویدادها یک کلاس یا شی را قادر می سازد که هنگام وقوع چیزی مورد علاقه ، به کلاسها یا اشیاء دیگر اطلاع دهند.کلاسی که رویداد را ارسال می کند (یا مطرح می کند raise) ناشرpublisher نامیده می شود و کلاس هایی که رویداد را دریافت می کنند (یا اداره می کنند handle) مشترکین subscribers می نامند.در یک برنامه معمولی C# Windows Forms یا وب ، شما در رویدادهایی که توسط کنترل هایی مانند دکمه ها و list box ها مطرح شده(raise شده) است ، مشترک می شوید.
+
+
+تفاوت Event و delegate
+A delegate can be passed as a method parameter. An event is raised but cannot be passed as a method parameter
+
+
+مراجعه شود به پروژه Delegate_ConsoleApp_Net ------------------------------------

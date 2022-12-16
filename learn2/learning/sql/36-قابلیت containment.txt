@@ -1,0 +1,12 @@
+قابلیت containment
+چون لاگین در سرور قرار دارد اگر بخواهیم دیتابیس را به سرور دیگر ببریم لاگین در سرور قبلی باقی میماند
+برای حل این مشکل کاری میکنیم که لاگین در دیتابیس باقی بماند برای اینکار از container استفاده میکنیم
+ابتدا باید آنرا در Instance sql فعال کنیم در قسمت زیر اینکا را میکنیم
+sql server instance > Property > advanced > Enable Contained database = true
+سپس در قسمت زیر را در دیتابیس مان تغییر میدهیم
+Property > Option > Containment Type = Partial
+حال در Sequrity دیتابیس یک یوزر میسازیم و نوع آنرا sql user with password قرار میدهیم.
+حال اگر بخواهیم با یوزر ساخته شده به اس کیو ال سرور وصل شویم اینکار را میکنیم:
+حالت لاگین را sql server Authentication انتخاب میکنیم نام کاربری و کلمه عبور یوزری که ساختیم را وارد میکنیم
+سپس گزینه option را میزنیم و در قسمت additional connection Parameter در تکست باکس کد زیر را وارد میکنیم
+Initial Catalog = نام دیتابیس

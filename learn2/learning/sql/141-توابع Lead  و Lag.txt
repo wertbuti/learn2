@@ -1,0 +1,5 @@
+توابع Lead  و Lag
+Lead - مقدار سطر بعدی را برای ستون مشخص برمیگرداند
+Lag - مقدار سطر قبلی را برای ستون مشخص برمیگرداند
+این توابع نیز به صورت پنجره ای استفاده میشوند
+Select *, Lead(TotalPrice) Over(Order By CustomerId), Lag(TotalPrice) Over(Order By Id) From Orders

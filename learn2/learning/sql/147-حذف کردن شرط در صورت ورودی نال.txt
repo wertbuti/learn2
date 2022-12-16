@@ -1,0 +1,3 @@
+دستور زیر اگر ورودی Null بدهیم شرط را حذف میکند
+Select * From Orders
+Where (CustomerId = @CustomerId or @CustomerId is Null)

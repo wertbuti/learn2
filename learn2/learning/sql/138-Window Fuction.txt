@@ -1,0 +1,19 @@
+Window Fuction
+این توابع شبیه Group By است با این تفاوت که 
+توابع Aggregation در Group By بر روی Group ها اعمال میشوند اما
+توابع Aggregation در Window Function بر روی هر سطر اعمال میشوند
+--------------------------------------
+
+ساختار Window Function
+AggregationFunction() OVER(Partition Order Range)
+Partition مشخص میکند که گروه بندی بر طبق کدام ستون انجام شود
+Order مشخص میکند که بر طبق کدام ستون خروجی مرتب شود
+Range هم محدوده اعمال تابع Aggregation را مشخص میکند
+--------------------------------------------
+
+مثالی از Window Function
+Select *,Max(TotalPrice) Over(Partition By CustomerId) MaxTotalPrice,
+Max(TotalPrice) Over(Order by CustomerId Rows Between Unbounded Preceding And Unbounded Following) MaxTotalPrice2
+From Orders
+کد بالا بالاترین قیمت خرید هر مشتری و همچنین بالاترین خرید کل خریدها را برمیگرداند.
+--------------------------------------------------------

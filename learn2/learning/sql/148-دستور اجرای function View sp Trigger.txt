@@ -1,0 +1,2 @@
+Function ها و View ها Call میشوند با دستور select
+اما spها و trigger ها اجرا یا Execute میشوند

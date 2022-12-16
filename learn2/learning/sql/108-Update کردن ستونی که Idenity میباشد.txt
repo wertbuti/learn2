@@ -1,0 +1,3 @@
+برای Update کردن ستونی که Idenity میباشد اول باید Identity_Insert آنرا on
+ کنیم سپس دستور insert بنویسیم و بعد دستور Delte بنویسیم و بعد Identity_Insert را off کنیم
+Insert و Delete معادل Update میشود

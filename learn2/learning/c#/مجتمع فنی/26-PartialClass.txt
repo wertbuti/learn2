@@ -1,0 +1,21 @@
+کلاس های Partial 
+هر کلاس در سی شارپ داخل یک فایل فیزیکی با پسوند cs. قرار می گیرد. زبان سی شارپ قابلیتی را فراهم می‌آورد که به کمک آن می توان پیاده سازی یک کلاس را در چندین فایل فیزیکی با پسوند cs. انجام داد. این کار با استفاده از کلمه ی کلیدی Partial انجام می‌پذیرد. کلمه کلیدی Partial می تواند بر روی یک کلاس، متد، اینترفیس و یا ساختار اعمال شود.
+متد partial هم همینطور است مثلا اسمش رو در یک فایل تعریف میکنیم و در فایل دیگر پیاده سازیش میکنیم
+public partial class MyPartialClass
+{
+    public MyPartialClass()
+    {
+    }
+
+    public void Method1(int val)
+    {
+        Console.WriteLine(val);
+    }
+}
+public partial class MyPartialClass
+{
+    public void Method2(int val)
+    {
+        Console.WriteLine(val);
+    }
+}

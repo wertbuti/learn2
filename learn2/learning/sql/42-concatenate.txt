@@ -1,0 +1,2 @@
+concatenate یعنی الحاق - مثالی از الحاق دو ستون جدول
+Select 'a' + 'b' As Col2

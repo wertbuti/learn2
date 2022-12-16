@@ -1,0 +1,24 @@
+Jquery Validate Unobtrusive را مایکروسافت نوشته
+و Jquery Validate  نسخه معمولی jquery میباشد
+اولی در asp.net mvc وجود دارد و دیگر نیاز نیست از تگ اسکریپت استفاده کنیم
+مثال
+
+------------------------------------------------------------------------------
+Jquery Validate Example:
+
+<input type="text" name="email" class="required">
+<script>
+        $(function () {
+            $("form").validate();
+        });
+</script>
+----------------------------------------------------------------------------
+Jquery Validate Unobtrusive Example:
+
+<input type="text" name="email" data-val="true" 
+data-val-required="This field is required.">  
+
+<div class="validation-summary-valid" data-valmsg-summary="true">
+    <ul><li style="display:none"></li></ul>
+</div>
+-----------------------------------------------------------------------------

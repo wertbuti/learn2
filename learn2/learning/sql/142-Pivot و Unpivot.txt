@@ -1,0 +1,13 @@
+Pivot
+این دستور باعث میشود بتوانیم سطرها را به ستون تبدیل کنیم
+Select Id,CustomerId,[11],[12],[13],[14],[15] From Orders
+Pivot(Sum(TotalPrice) for ProductId In ([11],[12],[13],[14],[15])) As P
+در کد بالا ستون ProductId حذف میشود و مقادیر موجود در این ستون خودشان تبدیل به ستون های جدیدی میشوند و درون این ستون ها
+مقادیر ستون TotalPrice قرار میگیرد
+------------------------------------------------
+
+Unpivot
+این دستور باعث میشود بتوانیم ستون هایی را به سطر تبدیل کنیم
+Select Id,CustomerId,OrderCount,ProductId,TotalPrice From A
+Unpivot(TotalPrice For ProductId In ([11],[12],[13],[14],[15])) As X
+--------------------------------------------------

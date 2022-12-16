@@ -1,0 +1,14 @@
+Entity Freamwork Core (Ef Coe)آخرین نسخه ازEntity Freamworkاست که مایکروسافت که به عنوان بخشی ازفریمورکDot Net Coreمعرفی کرده است.Ef coreبا قابلیت پشتیبانی ازcross platformطراحی شده و نسبت به نسخه قبلیentity frameworkسبکتر ، گسترده تر و استفاده سادتره را ارائه می دهد. درواقع می توان گفت کهef coreجدیترینormارائه شده توسط مایکروسافت است.
+EF Core از دو رویکرد توسعه پشتیبانی می کند
+Code-First
+Database-First
+
+مفاهیم زیر در آن استفاده میشود
+DbContext & DbSet
+Data Model
+Querying using Linq-to-Entities
+Change Tracking
+SaveChanges
+Migrations
+
+مراجعه شود به پروژه  EF_WinFormsApp_Net-------------------------------------------------

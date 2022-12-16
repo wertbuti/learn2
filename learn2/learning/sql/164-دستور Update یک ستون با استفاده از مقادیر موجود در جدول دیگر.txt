@@ -1,0 +1,4 @@
+دستور Update یک ستون با استفاده از مقادیر موجود در جدول دیگر
+Update t2 Set
+T2.Age = T1.Age From T1
+Where T2.Id = T1.Id

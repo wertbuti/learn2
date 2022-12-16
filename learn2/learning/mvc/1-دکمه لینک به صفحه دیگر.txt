@@ -1,0 +1,5 @@
+<button onclick="location.href='/Person/Insert'">جدید</button>
+
+<input type="button" onclick="location.href='/Person/Insert'" value="جدید" />
+
+<a href="/Person/Insert">جدید</a>

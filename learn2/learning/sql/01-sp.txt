@@ -1,0 +1,28 @@
+Stored Procedure یا Sp یا به زبان فارسی " رویه های ذخیره شده "  اشیایی اجرا پذیر هستند که شامل یک یا چندین دستور SQLمی شود .
+---------------------------------------
+مهم ترین کاربرد این رویه ها ذخیره کردن دستورات Select , Insert , Update , Delete هست یا ترکیبی از اینها .
+که کمک می کند، کدهای پر تکرار را در SQL Server، یک مرتبه تعریف کرده، و سپس بارها از آن استفاده کنید.
+-----------------------------------------
+برخی از قابلیت های رویه های ذخیره شده یا Stored Procedure  عبارت است از :
+در اولین اجرا کامپایل شده و در اجراهای بعدی سریعتر کار میکند
+دارای امنیت بالایی است و از هک شدن سایت شما توسط SQL Injection در بسیاری موارد جلوگیری می کند .
+قابلیت برنامه نویسی ( شرط ، حلقه و...) به زبان TransactSQL دارد .
+------------------------------------------
+ساخت اس پی
+Create PROCEDURE spUsersGetFamily
+	@userId int = 0,
+	@p2 nvarchar(50) output
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT  @p2=Family from T_Users
+	where UserId = @userId
+END
+GO
+----------------------------------
+اجرای اس پی
+declare @Family nvarchar(50)
+execute spUsersGetFamily 1,@Family output
+
+select @Family

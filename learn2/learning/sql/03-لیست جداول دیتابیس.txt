@@ -1,0 +1,2 @@
+لیست جداول دیتابیس
+select * from Information_Schema.tables

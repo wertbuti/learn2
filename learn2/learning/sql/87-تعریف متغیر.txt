@@ -1,0 +1,5 @@
+تعریف متغیر
+Declare @MyVar int = 10;
+یا
+Declare @MyVar int;
+Set @MyVar = 10;

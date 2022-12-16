@@ -1,0 +1,50 @@
+Trigger
+قطعه ای از کدهای Sql هستند که بعد از انجام یک عملیات یا بجای انجام یک عملیات اجرا میشود و عملیات خاصی را انجام میدهد
+----------------------------------------------
+
+سطوح Trigger
+در سه سطح قابل اجرا هستند
+1) در سطح سرور
+2) در سطح دیتابیس
+3) در سطح جدول
+---------------------------------
+
+انواع Trigger
+DDL - تریگرهای در سطح سرور و دیتابیس از نوع DDL هستند
+DML - تریگرهای در سطح جدول از نوع DML هستند
+-----------------------------------
+
+Trigger در سطح سرور
+Create Trigger [trgForAlterDatabase] On All Server
+For Alter_Database
+As
+Begin
+ Print 'Trigger Message: Alter In Database Occured'
+End
+-----------------------------------------
+
+Trigger در سطح دیتابیس
+Create Trigger trgForAlterTable on Database
+For Alter_Table,Drop_Table
+As
+Begin
+If Is_Member('db_owner') = 0
+Begin
+Print 'You Dont Have Permission'
+RollBack Transaction
+End
+End
+کد بالا میگوید اگر کاربر عضو db_owner نبود اجازه ساخت یا حذف جدولی را نداشته باشد
+--------------------------------------------
+
+Trigger در سطح جدول
+Create Trigger trgT1ForDelete on t1
+for Delete
+As
+Begin
+Insert Into MyLog
+(Target_Id,ActionName)
+Select Id,'Delete' From Deleted
+End
+کد بالا میگوید هر گاه سطری از جدول t1 حذف شود Id آن سطر را در جدول دیگری به اسم MyLog ذخیره کن
+----------------------------------------------------

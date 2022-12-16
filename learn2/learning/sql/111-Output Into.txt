@@ -1,0 +1,4 @@
+میتوان بعد از کلمه Output از Into استفاده کرد تا خروجی چاپ شده در جدولی دیگر ذخیره شود
+Delete From T5
+Output deleted.FristName into T6
+where id=2

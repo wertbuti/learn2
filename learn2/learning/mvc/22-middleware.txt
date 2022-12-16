@@ -1,0 +1,109 @@
+یکی از مزایای واضح میان افزارها سرعت بیشتر و بهبود کارایی می باشد.
+
+-----------------------------------------------------
+انواع میدلورها
+Content-Generating یا تولید کننده ی محتوا
+Short-Circuiting یا قطع کننده ی اتصال
+Request-Editing یا ویرایشگر درخواست
+Respons-Editing یا ویرایشگر پاسخ
+-------------------------------------------------
+
+middleware های معروف که مایکروسافت نوشته برایمان
+
+1- UseHttpsRedirection
+2- UseRouting و UseEndpoints دو میدلور مرتبط به هم
+3- UseAuthorization
+4- UseStaticFiles
+5- UseDefaultFiles
+6- UseFileServer
+7-UseAuthentication
+8-UseAuthorization
+
+------------------------------------------------------------------------------------------
+1- UseHttpsRedirection
+در core این میدلور باعث میشود درخواست Https باشد نه http
+اما در .net این کار یعنی https بودن در قسمت پروپرتی پروزه در بخش web به صورت ویرچوال دایرکتوری کلمه https تنظیم میشود
+---------------------------------------------------------------------------------------
+2- UseRouting و UseEndpoints دو میان افزار مرتبط به هم
+الگوی مسیریابی در میدلور UseEndpoints تعریف میشود به شکل زیر
+app.UseEndpoints(endPoints =>
+{
+    endPoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Privacy}/{id?}");
+
+    endPoints.MapControllerRoute(
+       name: "default2",
+       pattern: "{controller=Home2}/{action=Privacy}/{id?}");
+});
+در این مثال برایس نمونه 2 الگو تعریف شده است.
+الگوهای تعریف شده در میدلور UseRouting  خوانده میشود تا مقصد تعیین شود یعنی کنترلر و اکشن  مقصد را پیدا میکند و آنرا در متغیری به نام context.GetEndpoint().DisplayName میریزد
+سپس میدلورهای بعدی از این متغییر پر شده توسط میدلور UseRouting   استفاده میکنند مثلا میدلور UseAuthorization چک میکند که آیا کاربر اجازه دسترسی به مقصد را دارد یا نه
+و در نهایت میدلور UseEndpoints  مقصد پیدا شده را اجرا میکند یعنی کنترلر و اکشن مدنظر را اجرا میکند و بعد از آن میدلوری فراخوانی نمیشود
+بهتر است برخی میدلورها ما بین میدلور UseRouting   و UseEndpoints   قرار داده شوند و حتما باید میدلور UseRouting    قبل از سایر میدلور ها قرار داده شود
+
+اگر از کد زیر استفاده شود دیگر نیاز نیست هیچ کدام از میدلور های UseRouting    و UseEndpoints    استفاده و فراخوانی شود زیرا UseRouting    به صورت  ضمنی توسط دات نت فراخوانی میشود
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Privacy}/{id?}");
+
+با استفاده از کد زیر میتوان مقدار متغییری که توسط میدلور UseRouting     پر میشود را مشاهده کرد با بریک پوینت گزاشتن
+app.Use(async (context, next) =>
+{
+
+    Console.WriteLine("Before routing runs, endpoint is always null here");
+    Console.WriteLine($"Endpoint: {context.GetEndpoint()?.DisplayName ?? "null"}");
+    string x = context.GetEndpoint()?.DisplayName ?? "null";
+    await next(context);
+});
+
+----------------------------------------------------------------------------------------
+4- UseStaticFiles
+باید کد زیر را در program.cs قرار دهیم
+app.UseStaticFiles();
+میتوان فایلهایی راکه در wwwrootاست را کلاینت دسترسی داشته باشد. مثلا فولدری در زیر شاخه wwwroot ایجاد میکنیم و اسم آنرا image میگذاریم و
+مثلا یک عکس با نام 1.jpg در آن فولدر قرا ر میدهیم حالا اگر برنامه را اجرا کنیم در مسیر زیر عکس را باید ببنیم
+localhost1020/image/1.jpg
+
+اگر بخواهیم فولدری در غیر از wwwroot داشته باشیم و عکسی را در آن قرار دهیم مثلا فلودری با نام image2 و عکسی با نام 2.jpg قرا دهیم برای اینکه آن فایل در وب سایت توسط کلاینت دیده شود باید کد زیر را در program.cs بنویسیم
+app.UseStaticFiles(
+    new StaticFileOptions()
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"image2")),
+        RequestPath = new PathString("/abc")
+    }
+    ); 
+حال در دایرکتوری زیر عکس قابل مشاهده است
+localhost1020/abc/2.jpg
+-------------------------------------------------------------------------------------
+5- UseDefaultFiles
+این میان افزار فایلی که در wwwroot وجود دارد و به اسم default.html یا index.html است را به عنوان مسیر پیش فرض سایت در نظر میگیرد
+یعنی اگر کلاینت فقط آدرس سایت(localhost1020) را بزند فایل default.html باز میشود
+--------------------------------------------------------------
+6- UseFileServer
+این میان افزار ترکیب دو میان افزار زیر است کار هر دو را انجام میدهد
+UseStaticFiles       و     UseDefaultFiles
+------------------------------------------------------------
+7-UseAuthentication برای احراز هویت کاربر استفاده میشود
+8-UseAuthorization برای بررسی دسترسی کاربر استفاده میشود
+
+هر دوی این میدلورها زمانی کاربر دارد که از لاگین شدن توسط asp.net استفاده میشود مثلا از identity در غیر اینصورت
+خودمان باید میدلور بنویسیم
+------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

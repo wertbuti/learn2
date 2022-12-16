@@ -1,0 +1,12 @@
+برای استفاده از  api باید پکیج زیر را نصب کنیم
+Microsoft.AspNet.WebApi.Client
+NewtonSoft
+
+
+
+برای مشاهده نحوی نوشتن Api و استفاه از آن به پروژه های زیر مراجعه شود
+Univ_WebSite_Api_Net
+Univ_WebSite_Api_Net_use
+
+Univ_WebSite_Api_Core
+Univ_WebSite_Api_Core_Use

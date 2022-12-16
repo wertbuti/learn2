@@ -1,0 +1,6 @@
+اگر بخواهیم که هیچ کس دستور ساخت Viewمان را نبیند چه از طریق Design و چه از طریق تایه Object_Definition
+کافی است در هنگام ساخت ویو از کد With Encryption استفاده کنیم
+Create View MyView2
+With SchemaBinding,Encryption
+As
+...

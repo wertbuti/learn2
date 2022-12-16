@@ -1,0 +1,5 @@
+        [Display(Name="نام کوچک")]
+        [Required(ErrorMessage = "فیلد {0} را پر کنید")]
+ [Range(10,20,ErrorMessage ="بین 10 تا 20 باید باشد")]
+[RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$", ErrorMessage = "شماره موبایل نامعتبر است")]
+        public string Name { get; set; }

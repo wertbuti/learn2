@@ -1,0 +1,57 @@
+برای نشان دادن عکسی که خود کاربر از کامپیوتر خودش انتخاب کرده است باید کد جاوااسکریپ نوشت کد آن در زیر آمده
+------------------
+<input type="file" name="Picture" onchange="readURL(this);" />
+                    <input type="image"  id="img1"/>
+-----------------------------
+<script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img1').attr('src', e.target.result).width(150).height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+</script>
+---------------------------------------------------------------------------------------------------------------
+نحوی ذخیره عکس از کلاینت در سرور
+[HttpPost]
+        public ActionResult Insert(Person person, HttpPostedFileBase picture)
+        {
+            if (ModelState.IsValid)
+            {
+                string imageName = SaveImage(picture);
+                person.Picture = imageName;
+                PersonService personService = new PersonService();
+                personService.Insert(person);
+
+                return RedirectToAction("Index");
+                
+            }
+            return View();
+        }
+
+        public string SaveImage(HttpPostedFileBase img)
+        {
+            string imageName = Guid.NewGuid().ToString().Replace("-","") + Path.GetExtension(img.FileName) ;
+
+
+            string path = Server.MapPath("/images/PersonImages/") ;
+
+            string fullPath = path + imageName;
+
+            img.SaveAs(fullPath);
+
+
+
+
+            return imageName;
+        }
+------------------------------------------------------------------------------------------------------
+نحوی نمایش عکس ذخیره شده در سرور روی وب سایت
+<td><img style="width:100px;height:100px" src="~/images/PersonImages/@person.Picture" /></td>
+--------------------------------------------
+مراجعه شود به پروژه Univ_WebSite_MVC_Net_Ent

@@ -1,0 +1,2 @@
+ساخت دیتابیس  Create Database mydb1
+حذف دیتابیس  Drop Database mydb1

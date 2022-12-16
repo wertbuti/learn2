@@ -1,0 +1,13 @@
+درج رکورد در جدول به دو صورت
+
+روش1
+Insert Into t1
+(col1,col2) values
+(1,'ali'),
+(2,'hasan')
+
+روش2
+Insert Into T1
+select 1,'ali'
+union
+select 2,'hasan'

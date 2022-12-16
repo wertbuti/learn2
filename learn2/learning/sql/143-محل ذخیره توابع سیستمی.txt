@@ -1,0 +1,2 @@
+توابع سیستمی در مسیر زیر میباشد میتوان از آنها استفاده کرد
+Programmability > Functions < System Functions

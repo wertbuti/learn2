@@ -1,0 +1,4 @@
+Object_Definition
+این تابه آی دی یک ویو را میگیرد و دستور ساخت آنرا برمیگیرداند
+فقط برای ویو کار میکند
+Select Object_Definition(Object_Id('MyView'))

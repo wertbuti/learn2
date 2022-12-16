@@ -1,0 +1,21 @@
+دستور Insert Output
+با این دستور میتوانیم مقادیری که در حال ثبت در جدولی هستم را در خروجی هم چاپ کنیم
+Insert Into t5
+output Inserted.Id,Inserted.FristName
+Select 'ali'
+-----------------------------------
+
+دستور Delete Output
+با این دستور میتوانیم مقادیری که در حال حذف از جدولی هستیم در خروجی چاپ کنیم
+Delete From  t5 
+Output  deleted.Id,deleted.FristName
+Where Id=2
+---------------------------------
+
+دستور Output برای Update
+اس کیو ال Update را به عنوان دستور Delete و Insert در نظر میگیرد بنابراین کلمه کلیدی Updated وجود ندارد
+و برای دیدن مقادیری که تغییر کرده اند قبل از تغیر از Deleted و بعد از تغیر از Inserted استفاده شود
+Update T5 Set
+FristName = 'akbar'
+Output deleted.FristName as f1,inserted.FristName as f2
+Where Id=1

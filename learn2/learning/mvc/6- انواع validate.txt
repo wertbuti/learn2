@@ -1,0 +1,44 @@
+1- in html
+<input type="text" id="Name" name="Name" required oninvalid="this.setCustomValidity('فیلد نام را پر کنید')" 
+                           oninput ="this.setCustomValidity('')" />
+
+2- in htmHelp
+@Html.Editor("Name")
+@Html.ValidationMessage("Name")
+
+بالای فیلد مدلمان باید کد زیر را نوشت
+[Required(ErrorMessage = "فیلد {0} را پر کنید")]
+        public string Name { get; set; }
+
+
+برای اینکه طرف سرور صفحه نرود باید اسکریپت های زیر را به صفحه اضافه کرد
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+و برای چک کردن اعتبار در سمت سرور باید کد زیر را نوشت
+           if (ModelState.IsValid)
+            {
+                .......
+
+                return RedirectToAction("Index");
+                
+            }
+            return View();
+//------------------------------------------------------------------
+validation summery که کل خطاها را یکجا نشان میدهد به دو صورت htmlhelper و tag helepr در زیر آمده است
+@Html.ValidationSummary(false)    فعال است یعنی دیده میشود در خروجی
+@Html.ValidationSummary(true)      غیرفعال است یعنی دیده نمیشود در خروجی
+
+
+<div class="text-danger" asp-validation-summary="All"></div>                             فعال است یعنی دیده میشود در خروجی
+<div class="text-danger" asp-validation-summary="ModelOnly"></div>                  غیرفعال است یعنی دیده نمیشود در خروجی
+
+//-------------------------------------------------------------------
+
+برای فیلد تاریخ  از کد زیر استفاده شود
+@Html.TextBoxFor(m => m.BirthDate, new { type = "date", @class = "form-control" })
+                    @Html.ValidationMessage("BirthDate")
+
+

@@ -1,0 +1,4 @@
+Set Quoted_Identifier on
+کد بالا یعنی اینکه اگر در اسامی ستونها کلمه رزرو شده اس کی. ال وجود داشت علاوه بر [ ] میتوانید از " " استفاده کنید
+Select [Name] From t1
+Select "Name" From t1

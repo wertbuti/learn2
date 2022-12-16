@@ -1,0 +1,4 @@
+Table Variable - متغیر جدولی
+برای تعریف این متغیر مثل تعریف متغیرهای دیگر عمل میکنیم فقط در انتها ساختار جدول را مینویسیم
+Declare @MyTable Table
+(Id int,Fname varchar(50))

@@ -1,0 +1,80 @@
+به دو روش میتوان از ent در پروژه Core استفاده کرد
+
+1- در این روش پروژه کلاس لایبرری از نوع .net میسازیم در آن ent اضافه میکنیم
+سپس آیتم های زیر را به پروژه Core مان اضافه میکنیم:
+الف - dll پروژه کلاس لایبرری را
+ب- dll  ent را که با نامهای EntityFramework و EntityFramework.SqlServer در کلاس لایبرری هست
+ج- پکیج EntityFramework را
+---------------------------------------------------
+
+2- در این روش قصد داریم entcore را استفاده کنیم ولی چون هنوز core را مایکروسافت تکمیل نکرده است 
+نمیتوانیم به شکل ویزاردی به پروژه اضافه کرد بنابراین باید به صورت دستی کدهایب آن را به شکل زیر نوشت
+الف- دو پکیج به نامهای Microsoft.EntityFrameworkCore و Microsoft.EntityFrameworkCore.SqlServer را به نصب میکنیم
+ب- کلاسی به شکل زیر مینویسم که از کلاس DbContext ارث ببرد 
+public class MyDb : DbContext
+    {
+        public MyDb( DbContextOptions options) : base(options)
+        {
+            
+        }
+
+       public DbSet<Person> Person { get; set; }
+    }
+نکته: نام موجودیت هایمان باید همنام اسم جداول دیتابیسمان باشد در اینجا Person
+ج- در appSetting پروژه کانکشنمان را اضافه میکنیم
+"ConnectionStrings": {
+    "con": "Data source=.;initial catalog=univ;integrated security=true;"
+
+  }
+د- در Programs کانکشنمان را به کلاس MyDb که در بالا تعرف کرده ایم ارتباط میدهیم
+builder.Services.AddDbContext<MyDb>(options=>options.UseSqlServer(builder.Configuration.GetConnectionString("con")));
+ه- ارز کلاس MyDb مان .net نیو میسازد با تکنولوژی تزریق وابستگی پس کافی است در سازنده کنترلمان مثلا HomeController یک متغیر از
+نوع MyDb مان وارد کنیم و در کنترلمان از آن استفاده کنیم به شکل زیر
+MyDb _myDb;
+        public HomeController(ILogger<HomeController> logger, MyDb myDb)
+        {
+            _logger = logger;
+            _myDb = myDb;
+        }
+
+        public IActionResult Index()
+        {
+           List<Person> personList =   _myDb.Person.ToList();
+
+
+
+            return View();
+        }
+------------------------------------------------
+نکته: جهت join و نمایش محتوای کلید خارجی از include استفاده میشود مثال:
+فرض کنید دو جدول داریم 
+1- Article     این جدول شامل کلید خارجی از جدول دومان میباشد یعنی دارای فیلد ArticleTopicID است
+2- ArticleTopic
+برای اینکه در جدول اولمان محتوای جدول دوم دیده شود از کد زیر استفاده میشود
+ public async Task<ArticleVM> GetAsync(int articleID)
+        {
+            return await _applicationDbContext.Article.Include(u => u.ArticleTopic).Where(x=>x.ArticleID == articleID).SingleOrDefaultAsync();
+        }
+مرجع: ProEdu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

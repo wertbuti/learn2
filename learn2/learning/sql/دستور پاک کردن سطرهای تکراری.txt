@@ -1,0 +1,1 @@
+delete a from t1 a where ID != (select Min(ID) From t1 b where a.[Name]=b.[Name] )

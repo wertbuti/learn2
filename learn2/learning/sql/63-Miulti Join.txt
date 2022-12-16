@@ -1,0 +1,7 @@
+Miulti Join
+اگر در دستور Join بیش از دو جدول استفاده شود به آن Multi Join گفته میشود
+Select * from t1 
+Left Outer Join t2
+on t1.col1 = t2.col2
+Join t3 
+on t2.col1 = t3.id

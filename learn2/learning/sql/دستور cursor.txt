@@ -1,0 +1,16 @@
+با این دستور در سطرهای یک جدول به صورت حلقه پیمایش میکنیم
+
+declare @x int
+declare c  Cursor local for
+select Year([Date]) OrderYear From Orders
+group by year([DAte])
+
+Open c
+fetch next from c into @x
+while @@FETCH_STATUS = 0
+Begin
+insert into @T select top(2) ID From orders where Year([Date]) = @x order by Price desc
+
+fetch next from c into @x 
+End
+Close c

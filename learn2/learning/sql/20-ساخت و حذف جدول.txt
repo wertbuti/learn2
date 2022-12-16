@@ -1,0 +1,12 @@
+ساخت جدول
+Create Table t1
+(col1 int,col2 varchar(50))
+
+حذف جدول
+Drop Table t1
+
+افزودن ستون به جدول
+Alter Table t1 Add col3 int,col4 bit
+
+حذف ستون از جدول
+Alter Table t1 Drop column col3,col4

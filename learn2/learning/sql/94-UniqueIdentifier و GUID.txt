@@ -1,0 +1,9 @@
+UniqueIdentifier - یک دیتا تایپ است که مقادیر GUID در خود ذخیره میکند. GUID - Global Unique Identifier شاخص یکتای جهانی
+تابع NewId یک GUID تولید میکند
+Declare @MyVar UniqueIdentifier  = newId();
+----------------------------------------
+
+از GUID برای قرعه کشی استفاده میشود. کد زیر در هر اجرا یک سطر تصادفی از جدول را برمیگرداند
+Select Top(1) * From T1
+Order By NewId()
+-------------------------------------

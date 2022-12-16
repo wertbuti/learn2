@@ -1,0 +1,9 @@
+ستونی که Identity میباشد را خودمان نمیتوانیم پر کنیم برای اینکه خودمان بتوانیم پر کنیم از کد زیر استفاده میکنیم
+Set Identity_Insert T5 on;
+
+Insert Into T5
+(Id,FristName)
+Values
+(1,'ali')
+
+Set Identity_Insert T5 off;

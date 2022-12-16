@@ -1,0 +1,12 @@
+پارامترهاي اختیاري
+پارامترهاي اختیاري همانگونه که از اسمشان پیداست اختیاري هستند و می توان به آنها آرگومان ارسال کرد یا نه. این پارامترها 
+داراي مقادیر پیشفرضی هستند. اگر به اینگونه پارامترها آرگومانی ارسال نشود از مقادیر پیشفرض استفاده می کنند. 
+static void PrintMessage(string message = "Welcome to Visual C# Tutorials!")
+ {
+ Console.WriteLine(message);
+ }
+ public static void Main()
+ {
+ PrintMessage();
+ PrintMessage("Learn C# Today!");
+ }

@@ -1,0 +1,6 @@
+@Html.TextBox("Name","",new { type="number" })
+
+
+
+بدون html helper
+<input type="number" />

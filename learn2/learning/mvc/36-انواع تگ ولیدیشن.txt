@@ -1,0 +1,7 @@
+@Html.ValidationMessage("UserName")
+
+<span data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+
+@Html.ValidationMessageFor(m=>m.InputModel.UserName)
+
+<span asp-validation-for=InputModel.UserName></span>

@@ -1,0 +1,4 @@
+Order By جهت مرتب کردن سطرهای جدول بر طبق یک یا چند ستون ازآن استفاده میشود
+برای مرتب سازی به صورت صعودی از Asc و به صورت نزولی از Desc استفاده میشود
+Ascending(Asc) - Descending(Desc)
+Select * from t3 order by Id desc

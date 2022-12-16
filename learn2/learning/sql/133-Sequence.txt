@@ -1,0 +1,24 @@
+Sequence - توالی
+توالی ها آبجکت هایی هستند که بوسیله آنها میتوان اعدادمتوالی را بر طبق قوانینی که خودمان تعیین کردیم داشته باشیم
+---------------------------------------
+
+در قسمت زیر میتوان Sequence ساخت
+DbName > Programming > Sequence
+---------------------------------------
+
+دستور ساخت Sequence
+Create Sequence MyS
+As [Bigint]
+Start With 1
+Increment By 1
+-------------------------------
+
+نحوی استفاده از Sequence
+Declare @MyVal int = Next Value For MyS
+Select @MyVal
+--------------------------------------
+
+نحوی ارتباط دادن جدول با Sequence
+Create Table T5 
+(Id int Default Next Value For MyS,Fname varchar(50))
+-------------------------------------

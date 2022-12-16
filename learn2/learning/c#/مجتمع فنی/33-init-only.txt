@@ -1,0 +1,170 @@
+مرجع:
+https://www.dntips.ir/post/3256/%D8%A7%D9%85%DA%A9%D8%A7%D9%86-%D8%AA%D8%B9%D8%B1%DB%8C%D9%81-%D8%B3%D8%A7%D8%AF%D9%87%E2%80%8C%D8%AA%D8%B1-%D8%AE%D9%88%D8%A7%D8%B5-immutable-%D8%AF%D8%B1-c-9-0-%D8%A8%D8%A7-%D9%85%D8%B9%D8%B1%D9%81%DB%8C-%D9%88%DB%8C%DA%98%DA%AF%DB%8C-%D8%AE%D9%88%D8%A7%D8%B5-init-only
+
+-----------------------------------------------------
+نگاهی به روند تکاملی نحوه‌ی تعریف خواص از C# 1.0 تا C# 9.0
+
+در C# 1.0 برای تعریف خواص، نیاز به نوشتن مقدار زیادی کد بود:
+public class Person
+{
+    public string _firstName;
+
+    public string FirstName
+    {
+        get
+        {
+            return _firstName;
+        }
+        set
+        {
+            _firstName = value;
+        }
+    }
+}
+در اینجا تعریف backing field‌ها (مانند public string _firstName) و استفاده‌ی دستی از آن‌ها الزامی بود.
+
+در C# 2.0 از لحاظ ساده سازی این تعاریف، اتفاق خاصی رخ‌نداد. فقط امکان تعریف سطوح دسترسی مانند private بر روی getter‌ها و setter‌ها میسر شد:
+public string _firstName;
+public string FirstName
+{
+    get
+    {
+        return _firstName;
+    }
+    private set
+    {
+        _firstName = value;
+    }
+}
+
+در C# 3.0 بود که با ارائه‌ی auto-implemented properties، نحوه‌ی تعریف خواص، بسیار ساده شد و دیگر نیازی به تعریف backing field‌ها نبود؛ چون کامپایلر به صورت خودکار آن‌ها را در پشت صحنه ایجاد می‌کرد/می‌کند:
+public class Person
+{
+   public string FirstName { get; set; }
+}
+
+در C# 6.0، امکان حذف private setter‌ها از تعریف یک خاصیت میسر شد. یعنی مثال زیر را
+public class User
+{
+   public string Name { get; private set; }
+}
+به این نحو ساده‌تر و واضح‌تر نیز می‌توان نوشت:
+public class User
+{
+   public string Name { get; }
+}
+به‌علاوه در همین زمان بود که امکان مقدار دهی اولیه‌ی خواص نیز در همان سطر تعریف آن‌ها ممکن شد:
+public class Foo
+{
+   public string FirstName { get; set; } = "Initial Value";
+}
+پیش از این برای مقدار دهی اولیه‌ی خواص در همان کلاسی که آن‌ها را تعریف می‌کند، می‌بایستی از طریق مقدار دهی آن‌ها در سازنده‌ی کلاس اقدام می‌شد.
+
+همچنین در C# 6.0 با معرفی expression bodied members که بر روی خواص نیز قابل اعمال است، امکان تعریف خواص readonly محاسبه شده‌ی بر اساس مقدار سایر خواص نیز میسر شد:
+public class Foo
+{
+   public DateTime DateOfBirth { get; set; }
+   public int Age => DateTime.Now.Year - DateOfBirth.Year;
+}
+
+و در C# 9.0، با معرفی واژه‌ی کلیدی init، امکان تعریف ساده‌تر خواص immutable ممکن شد‌ه‌است که در مطلب جاری به آن خواهیم پرداختیم.
+
+
+روش غیرقابل مقدار دهی کردن خواص، در نگارش‌ها پیش از C# 9.0
+
+در بسیاری از موارد می‌خواهیم که خاصیتی از یک کلاس مدل، در خارج از آن قابل تغییر نباشد (مانند خواص شیء‌ای که به محتوای فایل config ثابت برنامه اشاره می‌کند). راه حل فعلی آن تا پیش از C# 9.0 به صورت زیر است:
+public class User
+{
+   public string Name { get; private set; }
+}
+که در این حالت دیگر نمی‌توان مقدار خاصیت Name را در خارج از کلاس User مقدار دهی کرد:
+var user = new User
+{
+   Name = "User 1" // Compile Error
+};
+وبا اینکار خطای کامپایلر زیر را دریافت می‌کنیم:
+The property or indexer 'User.Name' cannot be used in this context
+because the set accessor is inaccessible [CS9Features]csharp(CS0272)
+در این تعریف باتوجه به وجود private set، برای مقداردهی خاصیت Name می‌توان از یکی از دو روش زیر در داخل کلاس User استفاده کرد:
+- تنظیم مقدار خاصیت Name در سازنده‌ی کلاس
+- و یا تنظیم این مقدار در یک متد ثالث دیگر مانند SetName
+public class User
+{
+  public User(string name)
+  {
+    this.Name = name;
+  }
+
+  public void SetName(string name)
+  {
+    this.Name = name;
+  }
+
+  public string Name { get; private set; }
+}
+در هر دو حالت، از مقدار دهی مستقیم خاصیت Name توسط Object Initializer (یا همان روش متداول new User { Name = "some name"}) محروم می‌شویم. همچنین در ادامه شاید نیاز باشد که این خاصیت پس از مقدار دهی اولیه، دیگر قابل تغییر نباشد؛ یا به عبارتی immutable شود. در مثال فوق هنوز هم امکان تغییر مقدار خاصیت Name درون کلاس User، با فراخوانی‌های بعدی متد SetName، وجود دارد.
+
+
+معرفی خواص Init-Only در C# 9.0
+
+برای رفع دو مشکل یاد شده (امکان تنظیم مقدار خاصیت‌ها با همان روش متداول object initializer و همچنین غیرقابل تغییر شدن آن‌ها)، اکنون در C# 9.0 می‌توان بجای private set از واژه‌ی کلیدی init استفاده کرد:
+public class User
+{
+   public string Name { get; init; }
+}
+در اینجا تنها تغییر صورت گرفته، استفاده از واژه‌ی کلیدی init، در حین تعریف خاصیت Name است. به این ترتیب به دو مزیت زیر دسترسی پیدا می‌کنیم:
+الف) امکان مقدار دهی خاصیت Name، در خارج بدنه‌ی کلاس User و توسط روش متداول کار با object initializer‌ها هنوز هم وجود دارد و در این حالت الزامی به تعریف یک سازنده و یا متد خاصی درون کلاس User برای مقدار دهی آن نیست:
+var user = new User
+{
+   Name = "User 1"
+};
+ب) پس از اولین بار مقدار دهی این خاصیت init-only، دیگر نمی‌توان مقدار آن‌را تغییر داد:
+// Compile Time Error
+// Init-only property or indexer 'User.Name' can only be assigned in an object initializer,
+// or on 'this' or 'base' in an instance constructor or an 'init' accessor. [CS9Features]csharp(CS8852)
+user.Name = "Test";
+این نکته در مورد متدهای داخل کلاس User هم صدق می‌کند:
+public class User
+{
+   public string Name { get; init; }
+
+   public User(string name)
+   {
+     this.Name = name; // Works fine
+   }
+
+   public void SetName(string name)
+   {
+     this.Name = name; // Compile Time Error
+   }
+}
+می‌توان یک خاصیت init-only را برای بار اول، در سازنده‌ی همان کلاس نیز مقدار دهی کرد؛ اما مقدار دهی ثانویه‌ی آن در سایر متدهای داخل کلاس User نیز به خطای زمان کامپایل یاد شده، ختم می‌شود و مجاز نیست.
+
+
+روش تعریف immutable properties در نگارش‌های پیشین #C
+
+با استفاده از واژه‌ی readonly در نگارش‌های قبلی #C نیز می‌توان به صورت زیر، یک خاصیت را به صورت غیرقابل تغییر یا immutable در آورد:
+public class Product
+    {
+        public Product(string name)
+        {
+            _name = name;
+        }
+
+        private readonly string _name;
+
+        public string Name => _name;
+    }
+هرچند این روش کار می‌کند اما دیگر همانند init-only properties نمی‌توان از طریق object initializers خاصیت Name را مقدار دهی کرد و این مقدار دهی حتما باید از طریق سازنده‌ی کلاس باشد. همچنین ایجاد یک اصطلاحا backing filed هم برای آن، کدها را طولانی‌تر می‌کند.
+
+یک نکته: امکان استفاده‌ی از فیلدهای readonly با خواص init-only هم وجود دارد؛ از این جهت که این نوع خواص تنها در زمان نمونه سازی اولیه‌ی شیء، اجرا و مقدار دهی می‌شوند، با مفهوم readonly، سازگاری دارند:
+public class Person
+    {
+        private readonly string _name;
+
+        public string Name
+        {
+            get => _name;
+            init => _name = value;
+        }
+    }

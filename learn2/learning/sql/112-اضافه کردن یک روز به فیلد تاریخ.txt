@@ -1,0 +1,4 @@
+برای اضافه کردن یک روز به فیلد تاریخ از دو روش زیر استفاده میشود
+Declare @MyDate DateTime = SysDateTime();
+روش اول    Set @MyDate = DateAdd(day,1,@MyDate)
+روش دوم      Set @MyDate +=1;

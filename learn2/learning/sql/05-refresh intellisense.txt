@@ -1,0 +1,2 @@
+refresh intellisense in query window in sql
+ctrl + Shift + R

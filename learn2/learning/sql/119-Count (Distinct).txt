@@ -1,0 +1,2 @@
+میتوان از Distinct داخل تابع Count استفاده کرد
+Count (Distinct col1)
