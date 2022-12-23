@@ -1,0 +1,84 @@
+ساخت کامپوننت
+مثال:
+استاندارد نام گزاری رعایت شود
+user.componnent.ts
+user.componnemt.html
+user.componnent.css
+
+---------------------------------------------
+داخل فایل user.component.ts
+باید export نوشته شود تا بقیه بتوانند آنرا صدا کنند
+
+------------------------------------------
+برای اینکه یک فایلی component بشود باید بالای کلاس آن دکوریتور Componnent نوشته شود
+و برای اینکه دکوریتور شناخته شود باید آنرا به فایل import کرد
+نام کامپوننت را با selector مشخص میکنیم و فایلهای html و css انرا نیز تعریف میکنیم
+میتوانیم بجای داشتن صفحه html کد html را در دکوریتور داشته باشیم
+import { Component } from "@angular/core";
+
+@Component({
+    selector: 'app-user',
+    //templateUrl: './user.component.html',
+    template: `<p>okkkkkkkk</p>
+    <div>ok again</div>
+    `,
+    //styleUrls: ['./user.component.css']
+    styles: [`
+    p{color:blue;}
+    `]
+
+})
+export class UserComponent{
+
+}
+
+---------------------------------
+برای اینکه یک component رسما به پروژه معرفی شود باید داخل فایا app.module.ts آنرا declare کرد و البته قبلا از آن باید آنرا import کرد
+(توجه شود که هر وقت فایل app.module را تغییر میدهیم باید پروژه را دوباره run کنیم)
+import {UserComponent } from './user/user.component';
+.
+declarations: [
+    AppComponent,
+    UserComponent
+  ] 
+-------------------------------------------------
+
+نحوی فراخوانی کامپوننتمان
+کافی است در html مثلا app.component.html کد زیر را بنویسیم
+<app-user></app-user>
+-----------------------------------------------
+
+برای ساختن component به صورت اتوماتیک کافی است دستور زیر را در ترمینال در دایرکتوری پروزه بنویسیم
+ng generate component mycomponent
+یا
+ng g c mycomponent
+
+
+------------------------------------------------
+selector کامپوننت به سه حالت میتواند باشد
+element    -------------->  my
+class     -------------->  .my
+property -------------->  [my]
+
+
+---------------------------------------------------
+تبادل اطلاعات از ts فایل به html فایل به دو صورت امکان پذیر است
+string interpolation    ---     {{var}}
+property binding --- [property] = "var"
+
+تبادل از html به ts
+event binding
+(event)="function"
+
+تبادل اطلاعات دوطرفه
+two-way-binding
+[(ngModule)]="var"
+
+
+--------------------------------------------------------
+
+
+
+
+
+
