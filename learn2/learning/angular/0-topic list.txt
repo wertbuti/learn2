@@ -1,0 +1,303 @@
+install without download package
+ng new myProject --skip-install
+install without create test stuff like spec files
+ng new --minimall myProject 
+------------------------------------------
+7-component
+ng g c  login
+------------------------------------------
+8-component inline style & template
+ng g c  login --inline-style
+ng g c logout --inline-template
+-------------------------------------------
+9-module
+ng g m user-auth
+------------------------------------------
+10- function
+html)
+<button (click)="getName('ali')">
+ts)
+getName(name:string){...}
+------
+"strict": true   in tsconfig    prevent define prperty without type
+name = 'hasan'	get erro
+name:string	correct
+name:any		correct
+name:any|null	correct
+------------------------------------------
+10-important events
+<input #txt1 type="text" (keyup)="getData(txt1.value)">
+(keyup) - (keydown) - (input) - (blur) 
+input = keydown
+(mouseover) - (mouseleave)
+-------------------------------------------
+11-get text box value and print
+ts)
+keyup<input #txt5 type="text" (keyup)="getData(txt5.value)"><br>
+<h2>{{displayVal}}</h2>
+html)
+displayVal:string='';
+getData(val:string){
+console.warn(val)
+this.displayVal = val;
+  }
+---------------------------------------------
+12- counter example
+ts)
+count = 0;
+  counter(type: string) {
+    type === 'add' ? this.count++ : this.count--;
+  }
+html)
+<button (click)="counter('add')">++</button>
+    <p>counter: {{count}}</p>
+    <button (click)="counter('minus')">--</button>
+----------------------------------------------
+13- basic style
+global style	style.css
+------
+internal style
+html)
+<style>
+    .header{color:green;}
+</style>
+----
+inline style
+html)
+<div style="color:red"></div>
+---
+-----------------------------------------------
+14-property binding
+data binding done  with 2 waies:
+-------
+1-interpolation
+ts)
+name='peter';
+html)
+<input type="text" value="{{name}}">
+--------
+2-property binding
+ts)
+name='peter';
+html)
+<input type="text" [value]="name">
+-----------------
+property binding know boolean
+interpolation dont know boolean
+ts)
+x= false;
+html)
+<input type="text" value="{{name}}" disabled="{{x}}"> --not work correctly
+<input type="text" [value]="name" [disabled]="x">  -- work correctly
+-----------------------------------------------
+15- if else condition
+ts)
+show=false;
+html)
+-----
+<h1 *ngIf="show">hello</h1>
+------
+or
+<h1 *ngIf="show else yy">1</h1>
+<ng-template #yy>
+<h1>hello2 yy</h1>
+</ng-template>
+------
+or
+<h1 *ngIf="show; then ifblock else elseblock"></h1>
+
+<ng-template #ifblock>
+<h1>i'm if block</h1>
+</ng-template>
+
+<ng-template #elseblock>
+<h1>i'm else block</h1>
+</ng-template>
+--------
+or
+ts)
+show='akbar';
+html)
+<h1 *ngIf="show=='asgar'; then ifblock else elseblock"></h1>
+-----------------------------------------------
+16- multiple condition or else if
+-----
+ts) color='red';
+html)
+<ng-template [ngIf]="color==='red'">
+    <h1>red color</h1>
+</ng-template>
+------
+<ng-template [ngIf]="color==='red'">
+    <h1 style="color:red">red color</h1>
+</ng-template>
+
+<ng-template [ngIf]="color==='green'">
+    <h1 style="color:green">green color</h1>
+</ng-template>
+-----------
+---------------------------------------------------
+17-switch case
+ts)
+color='white';
+html)
+<div [ngSwitch]="color">
+            <h1 *ngSwitchCase="'red'">i'm red</h1>
+            <h1 *ngSwitchCase="'blue'">i'm blue</h1>
+            <h1 *ngSwitchCase="'white'">i'm white</h1>
+            <h1 *ngSwitchDefault>i'm default brown</h1>
+        </div>
+--------------------------------------------
+18-loop
+----
+ts)
+users = ['ali', 'reza', 'peter'];
+html)
+        <h1 *ngFor="let item of users">{{item}}</h1>
+-----
+ts)
+userDetails = [
+    { name: 'ali', family: 'alizadeh', age: '10' },
+    { name: 'reza', family: 'rezaii', age: '20' },
+    { name: 'peter', family: 'peterii', age: '30' }
+  ];
+html)
+<h1 *ngFor="let item of userDetails">
+            {{item.name}}- {{item.family}}-{{item.age}}</h1>
+
+--------------------------------------------
+19-nested loop
+ts)
+users=[
+{name:'ali',family:'alizadeh',accounts:['yahoo','gmail','insta']},
+{name:'reza',family:'rezaii',accounts:['facebook','gmail','insta']},
+{name:'peter',family:'peteri',accounts:['telegram','facebook','whatsup']},
+];
+html)
+<ul *ngFor="let user of users">
+            <li>{{user.name}} -- {{user.family}}</li>
+            <ul *ngFor="let account of user.accounts">
+                <li>{{account}}</li>
+            </ul>
+        </ul>
+--------------------------------------------
+20-style binding
+ts)
+color='green';
+bgcolor='orange';
+updateColor() {
+    this.color = 'skyblue';
+  }
+html)
+<h2 style="color:red">i'm inline style</h2>
+        <h2 [style.color]="'red'">i'm static style binding</h2>
+        <h2 [style.color]="color" [style.backgroundColor]="bgcolor">i'm dynamic style binding</h2>
+<button (click)="updateColor()">update color</button>
+---------------------------------------------
+21-header
+htnl)
+<nav>
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" alt="">
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Login</a></li>
+        <li><a href="#">User</a></li>
+    </ul>
+</nav>
+---------
+css)
+nav{
+    background-color: lightblue;
+    display: inline-block;
+    width:100%;
+}
+nav img{
+    width:50px;
+    height:50px;
+    
+}
+nav ul{
+    float: right;
+}
+nav ul li{
+    list-style-type: none;
+    display: inline-block;
+    padding: 20px;
+}
+li a{
+    text-decoration: none;
+    color:white;
+    cursor: pointer;
+}
+-----------------------------------------------
+22-basic form
+app-module)
+import {FormsModule} from '@angular/forms';
+--------
+ts)
+import { NgForm } from '@angular/forms';
+  userData: any = {};
+  getData(data: NgForm) {
+    console.warn(data);
+    this.userData = data;
+  }
+html)
+<form #myId="ngForm" (submit)="getData(myId.value)">
+    <input type="text" ngModel name="username" placeholder="user name" ><br><br>
+    <input type="text" ngModel name="email" placeholder="email" ><br><br>
+    <input type="text" ngModel name="password" placeholder="password"><br><br>
+    <button>Register</button>
+</form>
+<ul>
+    <li>{{userData.username}}</li>
+    <li>{{userData.email}}</li>
+    <li>{{userData.password}}</li>
+</ul>
+
+----------------------------------------------
+22- toggle element
+ts)
+display = true;
+  toggle() {
+    this.display = !this.display
+  }
+html)
+<h1 *ngIf="display">i'm h1</h1>
+<br>
+<button (click)="toggle()">click me</button>
+----------------------------------------------
+23- add bootstrap
+-----
+install command)
+ng add @ng-bootstrap/ng-bootstrap
+----
+help site address)
+https://ng-bootstrap.github.io/#/components/alert/examples
+-----
+html)
+<p>
+	<ngb-alert [dismissible]="false">
+		<strong>Warning!</strong> Better check yourself, you're not looking too good.
+	</ngb-alert>
+</p>
+----------------------------------------------
+24- install Material UI
+install command)
+ng add @angular/material
+help site address)
+https://material.angular.io/guide/getting-started
+-----------------------------------------------
+25-
+
+
+
+
+
+
+
+
+
+
+
+
