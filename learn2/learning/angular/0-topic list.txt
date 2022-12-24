@@ -288,7 +288,91 @@ ng add @angular/material
 help site address)
 https://material.angular.io/guide/getting-started
 -----------------------------------------------
-25-
+25-make todo list
+ts)
+list:any[]=[];
+  addTask(item:string){
+    this.list.push({id:this.list.length,name:item});
+  }
+  removeTask(id:number){
+    this.list = this.list.filter(item=>item.id !== id);
+    console.warn(this.list);
+  }
+html)
+<input type="text" #task placeholder="enter task">
+<br>
+<button (click)="addTask(task.value)">add task</button>
+<br>
+<ul *ngFor="let item of list">
+    <li>{{item.name}} <button (click)="removeTask(item.id)">remove</button></li>
+</ul>
+-------------------------------------------------
+26-send data parent to child component
+------------
+parent
+ts)
+data=8;
+  updateData()
+  {
+    this.data = Math.floor(Math.random()*10);
+  }
+html)
+<app-child [item]="data"></app-child>
+<button (click)="updateData()">update data</button>
+---------------
+child
+ts)
+import { Component,Input } from '@angular/core';
+@Input() item=0;
+html)
+<h2>{{item}}</h2>
+---------------------------------------------------
+27-reusable component - child & parent
+----------
+parent
+ts)
+myarray = [
+    { name: 'ali', email: 'ali@yahoo' },
+    { name: 'sakine', email: 'sakine@yahoo' },
+    { name: 'reza', email: 'reza@yahoo' },
+  ];
+html)
+  <ul *ngFor="let item of myarray">
+    <app-user-details [user]="item"></app-user-details>
+  </ul>
+------------
+child
+ts)
+import { Component,Input } from '@angular/core';
+@Input() user:{name:string,email:string}={name:'',email:''};
+html)
+<ul>
+    <li>{{user.name}}</li>
+    <li>{{user.email}}</li>
+</ul>
+----------------------------------------------------
+28-send data child to parent component
+----------------
+parent
+ts)
+myData='x';
+  updateData(data: string) {
+    this.myData = data;
+  }
+html)
+<app-child2 (updateDataEvent)="updateData($event)"></app-child2>
+  <h1>
+    Welcome to {{myData}}!
+  </h1>
+----------------
+child
+ts)
+import { Component,Output,EventEmitter } from '@angular/core';
+@Output()  updateDataEvent = new EventEmitter<string>();
+html)
+<input type="text" #mytext>
+<button (click)="updateDataEvent.emit(mytext.value)">ok</button>
+----------------------------------------------------
 
 
 
