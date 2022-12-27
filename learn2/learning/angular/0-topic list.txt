@@ -2,6 +2,62 @@ install without download package
 ng new myProject --skip-install
 install without create test stuff like spec files
 ng new --minimall myProject 
+---------------------------------------------
+subscribe
+----
+ts) employee.ts
+export interface IEmployee{
+    id: number,
+    name:string,
+    age:number
+  }
+-----
+ts) employeeService
+import {HttpClient} from '@angular/common/http';
+import {IEmployee} from './employee';
+import{Observable, observable} from 'rxjs';
+  private _url:string = '../assets/data/employees.json';
+  constructor(private http:HttpClient) { }
+
+  getEmployees(): Observable<IEmployee[]> {
+    return this.http.get<IEmployee[]>(this._url);
+  }
+------------
+ts)employees.json
+[
+    { "id": 1, "name": "ali", "age": 10 },
+    { "id": 2, "name": "reza", "age": 20 },
+    { "id": 3, "name": "asgar", "age": 30 },
+    { "id": 4, "name": "sakine", "age": 40 }
+  ]
+-------
+ts) employeeListComponent
+import { EmployeeService } from '../employee.service';
+import {IEmployee} from '../employee';
+import { timer } from 'rxjs';
+export class EmployeeListComponent implements OnInit {
+  public employees: IEmployee[] = [{ id: 0, name: '', age: 0 }];
+  constructor(private _employeeService: EmployeeService) { }
+
+  num = 0;
+  ngOnInit() {
+    this._employeeService.getEmployees()
+      .subscribe(data => this.employees = data);
+    const a = timer(0, 1000).subscribe(data => {
+      this.num = data;
+
+      if (data === 10) { a.unsubscribe(); }
+    });
+
+  }
+}
+html)
+<ul *ngFor="let item of employees">
+    <li>{{item.id}}  -  {{item.name}} - {{item.age}}</li>
+</ul>
+
+<h1>{{num}}</h1>
+
 ------------------------------------------
 7-component
 ng g c  login
@@ -373,8 +429,239 @@ html)
 <input type="text" #mytext>
 <button (click)="updateDataEvent.emit(mytext.value)">ok</button>
 ----------------------------------------------------
+29-two way binding
+ts)
+data2:any;
+html)
+<input type="text" [(ngModel)]="data2">
+<h1>this is data2:   {{data2}}</h1>
+----------------------------------------------------
+30-Template refrence variable
+همان آی دی دادن به یک مثلا تکست باکس است
+آی دی رفرنس وری ایبل است
+----------------------------------------------------
+31- basic  typescript for angular
 
+-----------------------------------------------------
+32-pipes in angular
+33-advanced pipes
+ts)
+  data = 'hello';
+  data2 = 'How Are You';
+  today = Date();
+  user = {name:'hasan',email:'hasan@yahoo.com'};
+  myfunc(item: string) {
+    return item.toUpperCase();
+  }
+html)
+<h1>{{data | uppercase}}</h1>
+<h1>{{myfunc(data)}}</h1>
+<h2>{{data2 | lowercase}}</h2>
+<hr>
+<h2>{{today}}</h2>
+<h2>{{today | date}}</h2>
+<h2>{{today | date:'fullDate'}}</h2>
+<h2>{{data2 | slice :0:4}}</h2>
+<h3>{{user | json | uppercase}}</h3>
+<h3>{{003.4500000 | number:'1.3-3'}}</h3>
+<h3>{{100 | currency : 'EUR'}}</h3>
+<h3>{{200 | currency : 'USD'}}</h3>
+<h3>{{300 | currency : 'GBP'}}</h3>
+<h3>{{300 | currency : 'INR'}}</h3>
+<h3>{{data2 | titlecase}}</h3>
+<hr>
+--------------------------------------------------
+34-custom pipes
+in terminal)
+ng g p pipes/usdInr
+ts) in component
 
+html) in component
+<h2>{{50 | usdInr : 4100.2}}</h2>
+ts) in pipe
+  transform(value: number, ...args: number[]): unknown {
+    const [price] = args;
+    return value*price;
+  }
+------------------------------------------------------
+34- Forms introduction
+2 type of forms
+1- template driver forms
+2-reactive forms
+------------------------------------------------------
+35-template driven froms
+ts) in app.module
+import {FormsModule} from '@angular/forms';
+imports: [...,FormsModule,...];
+-------
+ts)
+loginUser(item: any) {
+    console.warn(item);
+  }
+html)
+<form #loginForm="ngForm" (ngSubmit)="loginUser(loginForm.value)">
+    <input type="text" name="name" ngModel placeholder="enter name">
+    <br> <br>
+    <input type="text" name="password" ngModel placeholder="enter password">
+    <br> <br>
+    <button>login</button>
+</form>
+<button (mouseleave)="loginUser(loginForm.value)" >login2</button>
+------------------------------------------------------
+36-template-driven-form validation
+ts)
+loginUser(data:any){
+  console.warn(data);
+}
+html)
+<form #loginForm="ngForm" (ngSubmit)="loginUser(loginForm.value)">
+    <input type="text" name="name" required minlength="2" pattern="[a-zA-Z]+$"  #name="ngModel" ngModel placeholder="enter name">
+    <br>
+    <span *ngIf="name.invalid && name.touched" style="color:red">pleas enter name</span>
+    <br>
+    <input type="text" name="password" required email #password="ngModel" ngModel placeholder="enter password please"><br>
+    <span *ngIf="password.invalid && password.touched" style="color:red">please enter password</span>
+    <br>
+    <button [disabled]="loginForm.invalid">login</button>
+</form>
+<button (click)="loginUser(loginForm.value)">login2</button>
+-------------------------------------------------------
+37-reactive form
+ts) in app module
+import {ReactiveFormsModule} from '@angular/forms';
+imports: [...,ReactiveFormsModule,...]
+-------
+ts)
+import { FormGroup, FormControl } from '@angular/forms';
+loginForm = new FormGroup({
+    name: new FormControl('hasan'),
+    password: new FormControl()
+  });
+  loginUser() {
+    console.warn(this.loginForm.value);
+  }
+html)
+<form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+    <input type="text" formControlName="name">
+    <input type="text" formControlName="password">
+    <button>login</button>
+</form>
+-------------------------------------------------------
+37-reactive form validation
+ts)
+import { FormGroup, FormControl,Validators } from '@angular/forms';
+  loginForm = new FormGroup({
+    name: new FormControl('',[Validators.required,Validators.pattern('[a-zA-Z]+$')]),
+    password: new FormControl('',[Validators.required,Validators.minLength(3)])
+  });
+  loginUser() {
+    console.warn(this.loginForm.value);
+  }
+  get name(){
+    return this.loginForm.get('name');
+  }
+  get password(){
+    return this.loginForm.get('password');
+  }
+html)
+<form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+    <input type="text" formControlName="name">
+    <br>
+    <span style="color:red" *ngIf="name && name.invalid && name.touched">name is invalid</span>
+    <br>
+    <input type="text" formControlName="password">
+    <br>
+    <span style="color:red" *ngIf="password && password.invalid">enter password</span>
+    <br>
+    <button [disabled]="loginForm.invalid">login</button>
+</form>
+--------------------------------------------------------
+38- Directives
+in terminal)
+ng g directive redEl
+--------
+ts) in redEl
+import { Directive,ElementRef } from '@angular/core';
+constructor(el:ElementRef) {
+    el.nativeElement.style.color = "red";
+   }
+---------
+ts)
+title="i'm directive component";
+html)
+<p appRedEl>directive works!</p>
+<h2 appRedEl>{{title}}</h2>
+----------------------------------------------------------
+39- basic routing
+create foursimple component with this names:
+routComponent
+RouteHomeComponent
+RouteAboutComponent
+RouteUserComponent,
+----
+ts) in app-routingmodule
+const routes: Routes = [
+{ component:RouteHomeComponent, path: ''},
+{ component:RouteAboutComponent, path: 'about'},
+{ component:RouteUserComponent, path: 'user'},
+];
+------
+html) in routComponent
+<hr>
+<a routerLink="">Home</a><br>
+<a routerLink="about">About</a><br>
+<a routerLink="user">User</a>
+<router-outlet></router-outlet>
+<hr>
+------------------------------------------------------------
+40- dynamic routing
+ts)           in routeUser
+userId:any='0';
+constructor(private rout:ActivatedRoute){
+this.userId = this.rout.snapshot.paramMap.get('id');
+html)         in routeUser
+<h1>{{userId}}</h1>
+---
+html)     in routingComponent
+<a routerLink="">Home</a><br>
+<a routerLink="about">About</a><br>
+<a routerLink="user">User</a>
+<router-outlet></router-outlet>
+
+<a routerLink="user/10">ali</a><br>
+<a routerLink="user/20">ahmad</a><br>
+<a routerLink="user/30">sakine</a><br>
+-----
+ts) app-routing.moduls    change to
+{ component:RouteUserComponent, path: 'user/:id'}
+------------------------------------------------------------
+41- 404 page
+ts) in app-rout.module
+{ component:NoPageComponent, path: '**'},
+-----
+create NoPageComponent simple
+--------------------------------------------------------
+42- child route
+ts)       in  app-routing.module
+{ component:RouteAboutComponent, path: 'about',
+children:[
+  { component:RouteAboutChild1Component, path: 'aboutChild1'},
+  { component:RouteAboutChild2Component, path: 'aboutChild2'}
+],
+---------------
+html)    in routeAboutcomponent
+<div>
+    <hr><hr>
+    <h1>route-about works!</h1>
+    <a routerLink="aboutChild1">child1</a><br>
+    <a routerLink="aboutChild2">child2</a>
+    <router-outlet></router-outlet>
+    <hr><hr>
+</div>
+--------------------------------------------------------
+43- what is service
+
+----------------------------------------------------------
 
 
 
