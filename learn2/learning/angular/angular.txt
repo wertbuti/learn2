@@ -1,0 +1,1046 @@
+//install nodejs
+https://nodejs.org/en/
+//chek version
+npm -v
+node -v
+-------------------------------------
+//install angular cli
+// -g install angular globaly on computer
+npm install -g @angular/cli
+--------------------------------------
+//create new project
+ng new myproject
+//install without download package
+ng new myProject --skip-install
+//install without create test stuff like spec files
+ng new --minimall myProject 
+//open project with vscode
+code .
+-------------------------------------
+//run angular project
+ng serve
+//or
+npm start
+//transpile means translate typescript to javascript
+-------------------------------------------
+//reinstal packe of project
+npm install
+-----------------------------------------
+//package.json
+configuration for npm
+scripts: npm command  = ng command
+dependencies: package list for downloading in product mode
+devDependencies: package list for downloading in dev mode
+---------------------------------------------
+//for debug
+    {
+      "name": "ng test",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "npm: test",
+      "url": "http://localhost:9876/debug.html"
+    }
+-------------------------------------------------
+//generate interface command
+ng g i myInterface mytype
+--------------------------------------------------
+//config for dont create spec file
+//in angular.json
+"test2": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "skipTests": true,
+          "inlineStyle": false,
+          "style": "css"
+        },
+------------------------------------------------
+//interface vs type
+//there are similar but interface is extendable
+---------
+//a) interface
+
+interface Animal {
+  name: string
+}
+
+interface Bear extends Animal {
+  honey: boolean
+}
+
+const bear = getBear() 
+bear.name
+bear.honey
+-------
+//b) type
+type x=string;
+type Animal = {
+  name: string
+}
+
+type Bear = Animal & { 
+  honey: boolean 
+}
+
+const bear = getBear();
+bear.name;
+bear.honey;
+-------------------------------------------------
+//enum
+enum fasl{
+  bahar=0,
+  tabestan = 1,
+  paeez = 2,
+  zemestan=3
+}
+---
+name = fasl.bahar;
+--------------------------------------------------
+//subscribe
+-----------
+//ts) employee.ts
+export interface IEmployee{
+    id: number,
+    name:string,
+    age:number
+  }
+-----------
+//ts) employeeService
+import {HttpClient} from '@angular/common/http';
+import {IEmployee} from './employee';
+import{Observable, observable} from 'rxjs';
+  private _url:string = '../assets/data/employees.json';
+  constructor(private http:HttpClient) { }
+
+  getEmployees(): Observable<IEmployee[]> {
+    return this.http.get<IEmployee[]>(this._url);
+  }
+--------
+//ts)employees.json
+[
+    { "id": 1, "name": "ali", "age": 10 },
+    { "id": 2, "name": "reza", "age": 20 },
+    { "id": 3, "name": "asgar", "age": 30 },
+    { "id": 4, "name": "sakine", "age": 40 }
+  ]
+-------
+//ts) employeeListComponent
+import { EmployeeService } from '../employee.service';
+import {IEmployee} from '../employee';
+import { timer } from 'rxjs';
+export class EmployeeListComponent implements OnInit {
+  public employees: IEmployee[] = [{ id: 0, name: '', age: 0 }];
+  constructor(private _employeeService: EmployeeService) { }
+
+  num = 0;
+  ngOnInit() {
+    this._employeeService.getEmployees()
+      .subscribe(data => this.employees = data);
+    const a = timer(0, 1000).subscribe(data => {
+      this.num = data;
+
+      if (data === 10) { a.unsubscribe(); }
+    });
+
+  }
+}
+------------
+//html)
+<ul *ngFor="let item of employees">
+    <li>{{item.id}}  -  {{item.name}} - {{item.age}}</li>
+</ul>
+
+<h1>{{num}}</h1>
+
+------------------------------------------
+7-component
+ng g c  login
+------------------------------------------
+8-component inline style & template
+ng g c  login --inline-style
+ng g c logout --inline-template
+-------------------------------------------
+9-module
+ng g m user-auth
+------------------------------------------
+10- function
+html)
+<button (click)="getName('ali')">
+ts)
+getName(name:string){...}
+------
+"strict": true   in tsconfig    prevent define prperty without type
+name = 'hasan'	get erro
+name:string	correct
+name:any		correct
+name:any|null	correct
+------------------------------------------
+10-important events
+<input #txt1 type="text" (keyup)="getData(txt1.value)">
+(keyup) - (keydown) - (input) - (blur) 
+input = keydown
+(mouseover) - (mouseleave)
+-------------------------------------------
+11-get text box value and print
+ts)
+keyup<input #txt5 type="text" (keyup)="getData(txt5.value)"><br>
+<h2>{{displayVal}}</h2>
+html)
+displayVal:string='';
+getData(val:string){
+console.warn(val)
+this.displayVal = val;
+  }
+---------------------------------------------
+12- counter example
+ts)
+count = 0;
+  counter(type: string) {
+    type === 'add' ? this.count++ : this.count--;
+  }
+html)
+<button (click)="counter('add')">++</button>
+    <p>counter: {{count}}</p>
+    <button (click)="counter('minus')">--</button>
+----------------------------------------------
+13- basic style
+global style	style.css
+------
+internal style
+html)
+<style>
+    .header{color:green;}
+</style>
+----
+inline style
+html)
+<div style="color:red"></div>
+---
+-----------------------------------------------
+14-property binding
+data binding done  with 2 waies:
+-------
+1-interpolation
+ts)
+name='peter';
+html)
+<input type="text" value="{{name}}">
+--------
+2-property binding
+ts)
+name='peter';
+html)
+<input type="text" [value]="name">
+-----------------
+property binding know boolean
+interpolation dont know boolean
+ts)
+x= false;
+html)
+<input type="text" value="{{name}}" disabled="{{x}}"> --not work correctly
+<input type="text" [value]="name" [disabled]="x">  -- work correctly
+-----------------------------------------------
+15- if else condition
+ts)
+show=false;
+html)
+-----
+<h1 *ngIf="show">hello</h1>
+------
+or
+<h1 *ngIf="show else yy">1</h1>
+<ng-template #yy>
+<h1>hello2 yy</h1>
+</ng-template>
+------
+or
+<h1 *ngIf="show; then ifblock else elseblock"></h1>
+
+<ng-template #ifblock>
+<h1>i'm if block</h1>
+</ng-template>
+
+<ng-template #elseblock>
+<h1>i'm else block</h1>
+</ng-template>
+--------
+or
+ts)
+show='akbar';
+html)
+<h1 *ngIf="show=='asgar'; then ifblock else elseblock"></h1>
+-----------------------------------------------
+16- multiple condition or else if
+-----
+ts) color='red';
+html)
+<ng-template [ngIf]="color==='red'">
+    <h1>red color</h1>
+</ng-template>
+------
+<ng-template [ngIf]="color==='red'">
+    <h1 style="color:red">red color</h1>
+</ng-template>
+
+<ng-template [ngIf]="color==='green'">
+    <h1 style="color:green">green color</h1>
+</ng-template>
+-----------
+---------------------------------------------------
+17-switch case
+ts)
+color='white';
+html)
+<div [ngSwitch]="color">
+            <h1 *ngSwitchCase="'red'">i'm red</h1>
+            <h1 *ngSwitchCase="'blue'">i'm blue</h1>
+            <h1 *ngSwitchCase="'white'">i'm white</h1>
+            <h1 *ngSwitchDefault>i'm default brown</h1>
+        </div>
+--------------------------------------------
+18-loop
+----
+ts)
+users = ['ali', 'reza', 'peter'];
+html)
+        <h1 *ngFor="let item of users">{{item}}</h1>
+-----
+ts)
+userDetails = [
+    { name: 'ali', family: 'alizadeh', age: '10' },
+    { name: 'reza', family: 'rezaii', age: '20' },
+    { name: 'peter', family: 'peterii', age: '30' }
+  ];
+html)
+<h1 *ngFor="let item of userDetails">
+            {{item.name}}- {{item.family}}-{{item.age}}</h1>
+
+--------------------------------------------
+19-nested loop
+ts)
+users=[
+{name:'ali',family:'alizadeh',accounts:['yahoo','gmail','insta']},
+{name:'reza',family:'rezaii',accounts:['facebook','gmail','insta']},
+{name:'peter',family:'peteri',accounts:['telegram','facebook','whatsup']},
+];
+html)
+<ul *ngFor="let user of users">
+            <li>{{user.name}} -- {{user.family}}</li>
+            <ul *ngFor="let account of user.accounts">
+                <li>{{account}}</li>
+            </ul>
+        </ul>
+--------------------------------------------
+20-style binding
+ts)
+color='green';
+bgcolor='orange';
+updateColor() {
+    this.color = 'skyblue';
+  }
+html)
+<h2 style="color:red">i'm inline style</h2>
+        <h2 [style.color]="'red'">i'm static style binding</h2>
+        <h2 [style.color]="color" [style.backgroundColor]="bgcolor">i'm dynamic style binding</h2>
+<button (click)="updateColor()">update color</button>
+---------------------------------------------
+21-header
+htnl)
+<nav>
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" alt="">
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Login</a></li>
+        <li><a href="#">User</a></li>
+    </ul>
+</nav>
+---------
+css)
+nav{
+    background-color: lightblue;
+    display: inline-block;
+    width:100%;
+}
+nav img{
+    width:50px;
+    height:50px;
+    
+}
+nav ul{
+    float: right;
+}
+nav ul li{
+    list-style-type: none;
+    display: inline-block;
+    padding: 20px;
+}
+li a{
+    text-decoration: none;
+    color:white;
+    cursor: pointer;
+}
+-----------------------------------------------
+22-basic form
+app-module)
+import {FormsModule} from '@angular/forms';
+--------
+ts)
+import { NgForm } from '@angular/forms';
+  userData: any = {};
+  getData(data: NgForm) {
+    console.warn(data);
+    this.userData = data;
+  }
+html)
+<form #myId="ngForm" (submit)="getData(myId.value)">
+    <input type="text" ngModel name="username" placeholder="user name" ><br><br>
+    <input type="text" ngModel name="email" placeholder="email" ><br><br>
+    <input type="text" ngModel name="password" placeholder="password"><br><br>
+    <button>Register</button>
+</form>
+<ul>
+    <li>{{userData.username}}</li>
+    <li>{{userData.email}}</li>
+    <li>{{userData.password}}</li>
+</ul>
+
+----------------------------------------------
+22- toggle element
+ts)
+display = true;
+  toggle() {
+    this.display = !this.display
+  }
+html)
+<h1 *ngIf="display">i'm h1</h1>
+<br>
+<button (click)="toggle()">click me</button>
+----------------------------------------------
+23- add bootstrap
+-----
+install command)
+ng add @ng-bootstrap/ng-bootstrap
+----
+help site address)
+https://ng-bootstrap.github.io/#/components/alert/examples
+-----
+html)
+<p>
+	<ngb-alert [dismissible]="false">
+		<strong>Warning!</strong> Better check yourself, you're not looking too good.
+	</ngb-alert>
+</p>
+----------------------------------------------
+24- install Material UI
+install command)
+ng add @angular/material
+help site address)
+https://material.angular.io/guide/getting-started
+-----------------------------------------------
+25-make todo list
+ts)
+list:any[]=[];
+  addTask(item:string){
+    this.list.push({id:this.list.length,name:item});
+  }
+  removeTask(id:number){
+    this.list = this.list.filter(item=>item.id !== id);
+    console.warn(this.list);
+  }
+html)
+<input type="text" #task placeholder="enter task">
+<br>
+<button (click)="addTask(task.value)">add task</button>
+<br>
+<ul *ngFor="let item of list">
+    <li>{{item.name}} <button (click)="removeTask(item.id)">remove</button></li>
+</ul>
+-------------------------------------------------
+26-send data parent to child component
+------------
+parent
+ts)
+data=8;
+  updateData()
+  {
+    this.data = Math.floor(Math.random()*10);
+  }
+html)
+<app-child [item]="data"></app-child>
+<button (click)="updateData()">update data</button>
+---------------
+child
+ts)
+import { Component,Input } from '@angular/core';
+@Input() item=0;
+html)
+<h2>{{item}}</h2>
+---------------------------------------------------
+27-reusable component - child & parent
+----------
+parent
+ts)
+myarray = [
+    { name: 'ali', email: 'ali@yahoo' },
+    { name: 'sakine', email: 'sakine@yahoo' },
+    { name: 'reza', email: 'reza@yahoo' },
+  ];
+html)
+  <ul *ngFor="let item of myarray">
+    <app-user-details [user]="item"></app-user-details>
+  </ul>
+------------
+child
+ts)
+import { Component,Input } from '@angular/core';
+@Input() user:{name:string,email:string}={name:'',email:''};
+html)
+<ul>
+    <li>{{user.name}}</li>
+    <li>{{user.email}}</li>
+</ul>
+----------------------------------------------------
+28-send data child to parent component
+----------------
+parent
+ts)
+myData='x';
+  updateData(data: string) {
+    this.myData = data;
+  }
+html)
+<app-child2 (updateDataEvent)="updateData($event)"></app-child2>
+  <h1>
+    Welcome to {{myData}}!
+  </h1>
+----------------
+child
+ts)
+import { Component,Output,EventEmitter } from '@angular/core';
+@Output()  updateDataEvent = new EventEmitter<string>();
+html)
+<input type="text" #mytext>
+<button (click)="updateDataEvent.emit(mytext.value)">ok</button>
+----------------------------------------------------
+29-two way binding
+ts)
+data2:any;
+html)
+<input type="text" [(ngModel)]="data2">
+<h1>this is data2:   {{data2}}</h1>
+----------------------------------------------------
+30-Template refrence variable
+همان آی دی دادن به یک مثلا تکست باکس است
+آی دی رفرنس وری ایبل است
+----------------------------------------------------
+31- basic  typescript for angular
+
+-----------------------------------------------------
+32-pipes in angular
+33-advanced pipes
+ts)
+  data = 'hello';
+  data2 = 'How Are You';
+  today = Date();
+  user = {name:'hasan',email:'hasan@yahoo.com'};
+  myfunc(item: string) {
+    return item.toUpperCase();
+  }
+html)
+<h1>{{data | uppercase}}</h1>
+<h1>{{myfunc(data)}}</h1>
+<h2>{{data2 | lowercase}}</h2>
+<hr>
+<h2>{{today}}</h2>
+<h2>{{today | date}}</h2>
+<h2>{{today | date:'fullDate'}}</h2>
+<h2>{{data2 | slice :0:4}}</h2>
+<h3>{{user | json | uppercase}}</h3>
+<h3>{{003.4500000 | number:'1.3-3'}}</h3>
+<h3>{{100 | currency : 'EUR'}}</h3>
+<h3>{{200 | currency : 'USD'}}</h3>
+<h3>{{300 | currency : 'GBP'}}</h3>
+<h3>{{300 | currency : 'INR'}}</h3>
+<h3>{{data2 | titlecase}}</h3>
+<hr>
+--------------------------------------------------
+34-custom pipes
+in terminal)
+ng g p pipes/usdInr
+ts) in component
+
+html) in component
+<h2>{{50 | usdInr : 4100.2}}</h2>
+ts) in pipe
+  transform(value: number, ...args: number[]): unknown {
+    const [price] = args;
+    return value*price;
+  }
+------------------------------------------------------
+34- Forms introduction
+2 type of forms
+1- template driver forms
+2-reactive forms
+------------------------------------------------------
+35-template driven froms
+ts) in app.module
+import {FormsModule} from '@angular/forms';
+imports: [...,FormsModule,...];
+-------
+ts)
+loginUser(item: any) {
+    console.warn(item);
+  }
+html)
+<form #loginForm="ngForm" (ngSubmit)="loginUser(loginForm.value)">
+    <input type="text" name="name" ngModel placeholder="enter name">
+    <br> <br>
+    <input type="text" name="password" ngModel placeholder="enter password">
+    <br> <br>
+    <button>login</button>
+</form>
+<button (mouseleave)="loginUser(loginForm.value)" >login2</button>
+------------------------------------------------------
+36-template-driven-form validation
+ts)
+loginUser(data:any){
+  console.warn(data);
+}
+html)
+<form #loginForm="ngForm" (ngSubmit)="loginUser(loginForm.value)">
+    <input type="text" name="name" required minlength="2" pattern="[a-zA-Z]+$"  #name="ngModel" ngModel placeholder="enter name">
+    <br>
+    <span *ngIf="name.invalid && name.touched" style="color:red">pleas enter name</span>
+    <br>
+    <input type="text" name="password" required email #password="ngModel" ngModel placeholder="enter password please"><br>
+    <span *ngIf="password.invalid && password.touched" style="color:red">please enter password</span>
+    <br>
+    <button [disabled]="loginForm.invalid">login</button>
+</form>
+<button (click)="loginUser(loginForm.value)">login2</button>
+-------------------------------------------------------
+37-reactive form
+ts) in app module
+import {ReactiveFormsModule} from '@angular/forms';
+imports: [...,ReactiveFormsModule,...]
+-------
+ts)
+import { FormGroup, FormControl } from '@angular/forms';
+loginForm = new FormGroup({
+    name: new FormControl('hasan'),
+    password: new FormControl()
+  });
+  loginUser() {
+    console.warn(this.loginForm.value);
+  }
+html)
+<form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+    <input type="text" formControlName="name">
+    <input type="text" formControlName="password">
+    <button>login</button>
+</form>
+-------------------------------------------------------
+37-reactive form validation
+ts)
+import { FormGroup, FormControl,Validators } from '@angular/forms';
+  loginForm = new FormGroup({
+    name: new FormControl('',[Validators.required,Validators.pattern('[a-zA-Z]+$')]),
+    password: new FormControl('',[Validators.required,Validators.minLength(3)])
+  });
+  loginUser() {
+    console.warn(this.loginForm.value);
+  }
+  get name(){
+    return this.loginForm.get('name');
+  }
+  get password(){
+    return this.loginForm.get('password');
+  }
+html)
+<form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+    <input type="text" formControlName="name">
+    <br>
+    <span style="color:red" *ngIf="name && name.invalid && name.touched">name is invalid</span>
+    <br>
+    <input type="text" formControlName="password">
+    <br>
+    <span style="color:red" *ngIf="password && password.invalid">enter password</span>
+    <br>
+    <button [disabled]="loginForm.invalid">login</button>
+</form>
+--------------------------------------------------------
+38- Directives
+in terminal)
+ng g directive redEl
+--------
+ts) in redEl
+import { Directive,ElementRef } from '@angular/core';
+constructor(el:ElementRef) {
+    el.nativeElement.style.color = "red";
+   }
+---------
+ts)
+title="i'm directive component";
+html)
+<p appRedEl>directive works!</p>
+<h2 appRedEl>{{title}}</h2>
+----------------------------------------------------------
+39- basic routing
+create foursimple component with this names:
+routComponent
+RouteHomeComponent
+RouteAboutComponent
+RouteUserComponent,
+----
+ts) in app-routingmodule
+const routes: Routes = [
+{ component:RouteHomeComponent, path: ''},
+{ component:RouteAboutComponent, path: 'about'},
+{ component:RouteUserComponent, path: 'user'},
+];
+------
+html) in routComponent
+<hr>
+<a routerLink="">Home</a><br>
+<a routerLink="about">About</a><br>
+<a routerLink="user">User</a>
+<router-outlet></router-outlet>
+<hr>
+------------------------------------------------------------
+40- dynamic routing
+ts)           in routeUser
+userId:any='0';
+constructor(private rout:ActivatedRoute){
+this.userId = this.rout.snapshot.paramMap.get('id');
+html)         in routeUser
+<h1>{{userId}}</h1>
+---
+html)     in routingComponent
+<a routerLink="">Home</a><br>
+<a routerLink="about">About</a><br>
+<a routerLink="user">User</a>
+<router-outlet></router-outlet>
+
+<a routerLink="user/10">ali</a><br>
+<a routerLink="user/20">ahmad</a><br>
+<a routerLink="user/30">sakine</a><br>
+-----
+ts) app-routing.moduls    change to
+{ component:RouteUserComponent, path: 'user/:id'}
+------------------------------------------------------------
+41- 404 page
+ts) in app-rout.module
+{ component:NoPageComponent, path: '**'},
+-----
+create NoPageComponent simple
+--------------------------------------------------------
+42- child route
+ts)       in  app-routing.module
+{ component:RouteAboutComponent, path: 'about',
+children:[
+  { component:RouteAboutChild1Component, path: 'aboutChild1'},
+  { component:RouteAboutChild2Component, path: 'aboutChild2'}
+],
+---------------
+html)    in routeAboutcomponent
+<div>
+    <hr><hr>
+    <h1>route-about works!</h1>
+    <a routerLink="aboutChild1">child1</a><br>
+    <a routerLink="aboutChild2">child2</a>
+    <router-outlet></router-outlet>
+    <hr><hr>
+</div>
+--------------------------------------------------------
+43- what is service
+
+----------------------------------------------------------
+44- make service
+create servece in terminal
+ng g service myService
+--------
+in service
+ users() {
+    return [
+      {name:"hasan",email:"ganbar@yahoo.com"},
+      {name:"akbar",email:"akbar@yahoo.com"},
+      {name:"reza",email:"reza@yahoo.com"}];
+  }
+--------
+in footercomponent
+html)
+<div class="footer">
+    <h1>footer</h1>
+    <ul *ngFor="let item of fember">
+        <li>{{item.email}}</li>
+    </ul>
+</div>
+------------
+ts)
+import { UserDataService } from '../services/user-data.service';
+fember:any;
+  constructor(private y:UserDataService){
+    this.fember=y.users();
+  }
+---------------------------------------------------------
+45-call api
+--------
+in service
+ts)
+constructor(private http:HttpClient) { }
+
+  users() {
+    return this.http.get("https://localhost:7129/WeatherForecast");
+------------
+in component
+html)
+<ul *ngFor="let item of memberData">
+    <li>{{item.temperatureF}}</li>
+</ul>
+ts)
+memberData:any;
+  constructor(private x: UserDataService) {
+    // console.warn(x.users());
+    this.x.users().subscribe((data)=>{
+      console.warn("data",data);
+      this.memberData = data;
+    });
+  }
+------------------------------------------------------------
+46-call post api
+in app module
+ts)
+import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+imports: [
+    FormsModule,
+    HttpClientModule
+  ],
+------
+in myService
+ts)
+import{HttpClient} from '@angular/common/http'
+constructor(private http:HttpClient) { }
+  url='myurl';
+  saveUser(data:any){
+       return this.http.post(this.url,data);
+  }
+----------
+in component
+ts)
+import { MyServiceService } from '../../services/my-service.service';
+constructor(private myServ:MyServiceService) { }
+  x:any;
+  getData(myBox: any) {
+    //console.warn(myBox);
+    this.myServ.saveUser(myBox).subscribe((result)=>
+    {
+        this.x = result;
+    });
+  }
+htnl)
+<form #UsersForm="ngForm" (ngSubmit)="getData(UsersForm.value)">
+    <input  type="text" name="name"  ngModel>
+    <input type="text" name="email" ngModel>
+    <input type="text" name="password" ngModel>
+    <button>send</button>
+</form>
+----------------------------------------------------------
+47- model and interface
+in myInterFaces.ts
+ts)
+export interface type1{name:string,id:number,indian:boolean}
+export interface type2{name:string,age:number}
+----------
+in mycomponent
+ts)
+import {type1} from '../myInterfaces';
+myFunc() {
+      const data:type1 = { name:'reza',id:1020, indian:true };
+  }
+---------------------------------------------------------------
+use new module
+48- recap module and routing
+create MyModule
+ts)
+import {UserComponent} from '../user/user.component';
+import {LinkComponent} from '../link/link.component';
+declarations: [UserComponent,LinkComponent],
+exports:[UserComponent,LinkComponent]
+---------
+define myModule to appmodule
+app module
+ts)
+import {MyModuleModule} from './recapModule/my-module/my-module.module';
+  imports: [
+    MyModuleModule
+  ],
+----------
+app component
+html)
+<a routerLink="myuser">لینک به صفحه کاربر</a>
+   <router-outlet></router-outlet>
+--------------
+app routing module
+trs)
+import {UserComponent} from './recapModule/user/user.component';
+const routes: Routes = [
+  {path:"myuser",component:UserComponent}
+];
+--------------------------------------------------------------
+48- routing moudules
+------
+create module with routing
+ng g m admin ---riuting
+------------------------------------------------------------------
+49- group routing
+creating admin module with routing and login component
+create user module with routing and login component
+----------
+admin-routing
+ts)
+import { LoginComponent } from './login/login.component';
+const routes: Routes = [
+  {
+    path: "admin", children:[
+      { path: "login", component: LoginComponent }
+    ]
+  }
+];
+---------------
+admin module
+ts)
+import { LoginComponent } from './login/login.component';
+declarations: [
+    LoginComponent
+  ],
+  imports: [
+    CommonModule,
+    AdminRoutingModule
+  ],
+  exports:[LoginComponent]
+-----------------
+app module
+ts)
+import {AdminModule} from './admin/admin.module';
+imports: [
+...
+    AdminModule,
+...
+  ],
+-------------
+app component
+html)
+<h2>admin</h2>
+<a routerLink="admin/login">login</a>
+<router-outlet></router-outlet>
+-----------------------
+for user module is same of above
+---------------------------------------------------------------
+50- lazy loading modules
+like above texts with this changes
+in app routing add:
+const routes: Routes = [
+  { path: "myuser", component: UserComponent },
+  {
+    path: "admin", loadChildren: () => import('./admin/admin.module').
+      then(mod => mod.AdminModule)
+  }
+];
+----------
+in app modules
+comments this lines
+//import {AdminModule} from './admin/admin.module';
+imports: [
+...
+   //AdminModule,
+...
+  ],
+--------
+in admin modules after import add
+console.warn('admin module loaded');  //to show when loade module 
+--------------------------------------------------------
+51- lazy loading component
+dont import component in app modules and any where
+in use lazycomponent
+ts)
+import { ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+//import { LazyComponent } from '../lazy/lazy.component';
+export class UseLazyComponent {
+  constructor(private vcr: ViewContainerRef, private cfr: ComponentFactoryResolver) {
+    this.loadLazy();
+  }
+    async loadLazy() {
+    this.vcr.clear();
+    const {LazyComponent} = await import('../lazy/lazy.component');
+    this.vcr.createComponent(this.cfr.resolveComponentFactory(LazyComponent));
+  }
+--------------
+in lazy component
+ts) 
+after imports add
+console.warn('lazy component loaded now!');
+---------------------------------------------------
+52-automation testing
+test waies
+1- Unit Test Case
+2- Integration
+3- End-to-End
+----------
+test tools
+1- protractor - Run test case on browser  - زاویه سنج - نقاله ریاضی   for end to end
+2- Jasmin - testing enviroment run spec file for the test case
+3- karma  Run test case in multiple browser
+----------------------------------------------------
+53- first unit test case
+create new file with name dummy.spec.ts
+ts)
+describe("dummy component",
+()=>{
+it("بررسی مقدار پارامتر ایکس",()=>expect(100).toBe(200));
+it("let's check string",()=> expect("hello").toBe("hi"));
+});
+------------------------------------------------------
+54- component unit testing
+in component
+html)
+<h1 class="xx">user login page</h1>
+ts)
+firstName='hasan';
+  sum(a:number,b:number){
+    return a+b;
+  }
+-------
+spec)
+it("check firstname",()=>{
+    expect(component.firstName).toBe('hasan');
+  });
+  it("check my function",()=>{
+    expect(component.sum(10,20)).toBe(30);
+  });
+  it("check h1 amount",()=>{
+    const data = fixture.nativeElement;
+    expect(data.querySelector('.xx').textContent).toContain("hi");
+  });
+----------------------------------------------------------
+55- new feature
+
+------------------------------------------------------------
+56-what's new in angular
+
+-----------------------------------------------------------
+57-new feature
+stand alone component
+ng g c mycomp --standalone
+-----------------------------------
+
+
+
+
+
+
+
+
+
+
