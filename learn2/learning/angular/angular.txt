@@ -725,9 +725,11 @@ html)     in routingComponent
 <a routerLink="user/10">ali</a><br>
 <a routerLink="user/20">ahmad</a><br>
 <a routerLink="user/30">sakine</a><br>
+<a [routerLink]="['user2',30,10]">sakine</a><br>
 -----
 ts) app-routing.moduls    change to
 { component:RouteUserComponent, path: 'user/:id'}
+{component:RouteUser2Component, path: 'user2/:id/:age'}}
 ------------------------------------------------------------
 41- 404 page
 ts) in app-rout.module
