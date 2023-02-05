@@ -1,0 +1,98 @@
+//js introduction
+//JavaScript Can Change HTML Content
+document.getElementById("demo").innerHTML = "Hello JavaScript";
+
+//JavaScript Can Change HTML Attribute Values
+document.getElementById('img1').src='pic2.png';
+
+//JavaScript Can Change HTML Styles
+document.getElementById("demo").style.fontSize = "35px";
+
+//JavaScript Can Hide HTML Elements
+document.getElementById("demo").style.display = "none";
+
+//JavaScript Can Show HTML Elements
+document.getElementById('demo').style.display ='block';
+--------------------------------------------------------------------------------------
+
+//js where to
+//The <script> Tag
+<script>
+document.getElementById("demo").innerHTML = "My First JavaScript";
+</script>
+
+//JavaScript in <head> or <body>
+//Placing scripts at the bottom of the <body> element improves the display speed, because script interpretation slows down the display.
+//in head
+<head>
+<script>
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+</script>
+</head>
+
+//in body
+<body>
+<script>
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+</script>
+</body>
+
+//External JavaScript
+<script src="myScript.js"></script>
+
+//External JavaScript Advantages
+It makes HTML and JavaScript easier to read and maintain
+Cached JavaScript files can speed up page loads
+
+//External References
+//With a full URL (a full web address)
+<script src="https://www.w3schools.com/js/myScript.js"></script>
+
+//With a file path (like /js/)
+<script src="/js/myScript.js"></script>
+
+//Without any path (no path)
+<script src="myScript.js"></script>
+----------------------------------------------------------------------------------
+
+//JavaScript Display Possibilities
+//Using innerHTML
+document.getElementById('demo').innerHTML = 'this is test';
+
+//Using document.write()
+//Using document.write() after an HTML document is loaded, will delete all existing HTML:
+document.write('this is test');
+
+//Using window.alert()
+//You can skip the window keyword.
+//keyword is optional:
+window.alert('this is test');
+
+//Using console.log()
+//For debugging purposes, you can call the console.log() method in the browser to display data
+ console.log('thi is test');
+
+//JavaScript Print
+//to print the content of the current window.
+window.print()
+----------------------------------------------------------------------------------
+
+//JavaScript Statements
+let x, y, z;    // Statement 1
+x = 5;          // Statement 2
+
+//JavaScript Programs
+//A JavaScript program is a list of statements.
+
+//JavaScript KeywordsJavaScript Keywords
+
+
+
+
+
+
+
