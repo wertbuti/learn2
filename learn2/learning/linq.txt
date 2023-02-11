@@ -1,0 +1,463 @@
+using System.Collections;
+
+namespace Linq_WinFormsApp_Net
+{
+    public partial class Form1 : Form
+    {
+        List<Student> _studentList;
+        List<Course> _courseList;
+        int _pageSize = 1;
+        int _page = 0;
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            _studentList = MyStudentList();
+            _courseList = MyCourseList();
+        }
+
+        //private void FillListBox()
+        //{
+        //    listBox1.Items.Clear();
+        //    //foreach (int x in query)
+        //    //{
+        //    //    listBox1.Items.Add(x);
+        //    //}
+        //}
+
+        private List<Student> MyStudentList()
+        {
+            List<Student> studentList = new List<Student>
+            {
+                new Student{Id=1,FirstName="ali",lastName="ali2",Age=10},
+                new Student{Id=2,FirstName="reza",lastName="reza2",Age=15},
+                new Student{Id =3,FirstName="akbar",lastName="akbar2",Age=10}
+            };
+            studentList.Add(new Student { Id = 4, FirstName = "abas", lastName = "abas2", Age = 15 });
+
+            return studentList;
+        }
+        private List<Course> MyCourseList()
+        {
+            List<Course> courseList = new List<Course>
+            {
+                new Course{IdCourse=1,StudentId_Fk=1,CourseTitle="computer",Number=10},
+                new Course{IdCourse=2,StudentId_Fk=1,CourseTitle="dini",Number=15},
+                new Course{IdCourse =3,StudentId_Fk=2,CourseTitle="adabiat",Number=10}
+            };
+            courseList.Add(new Course { IdCourse = 4, StudentId_Fk = 3, CourseTitle = "oloum", Number = 15 });
+
+            return courseList;
+        }
+
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //query operator
+            int[] numbers = new int[6] { 0, 1, 2, 3, 4, 5 };
+            var query = numbers.Where(x => x % 2 == 0).OrderBy(x => x);
+
+
+            listBox1.Items.Clear();
+            foreach (var x in query)
+            {
+                listBox1.Items.Add(x);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //query expression
+            int[] numbers = new int[6] { 0, 1, 2, 3, 4, 5 };
+            var query = from n in numbers
+                        where n % 2 == 0
+                        orderby n
+                        select n;
+
+            listBox1.Items.Clear();
+            foreach (var x in query)
+            {
+                listBox1.Items.Add(x);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //lazy loading
+            List<string> namelist = new List<string> { "ali", "hassan", "reza" };
+            var query = from name in namelist
+                        select name;
+
+            namelist.Add("akbar");
+
+            listBox1.Items.Clear();
+            foreach (var x in query)
+            {
+                listBox1.Items.Add(x);
+            }
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //query operator
+
+            //var query = studentList.Where(x => x.FirstName.ToLower().Contains("al") && x.Age>5
+            var query = _studentList.Where(x => x.FirstName.ToLower().StartsWith("al") || x.Age > 5
+            );
+            dataGridView1.DataSource = query.ToList();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            //query expression
+
+            var query = from st in _studentList
+                        where st.FirstName.ToLower().Contains("al")
+                        && st.Age > 5
+                        select st;
+
+            dataGridView1.DataSource = query.ToList();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            //operator
+            //change column name
+            var query = _studentList.Select(st => new { Code = st.Id, famili = st.lastName });
+            dataGridView1.DataSource = query.ToList();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            //expression
+            //change column name
+            var query = from st in _studentList
+                        select new { Code = st.Id, famili = st.lastName, st.Age };
+            dataGridView1.DataSource = query.ToList();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            //let
+
+            var query = from st in _studentList
+                        let isAliStudent = st.FirstName.ToLower().Contains("ali")
+                        where isAliStudent && st.Age > 5
+                        select st;
+
+
+            dataGridView1.DataSource = query.ToList();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            //operator
+            //group by
+            var query = _studentList.GroupBy(x => x.Age);
+
+            //جهت حساس نبودن به حروف بزرگ و کوچک - البته اینجا ایج عدد است و معنا ندارد. فقط برای آموزش
+            //var query = studentList.GroupBy(x => x.Age.ToString(),StringComparer.OrdinalIgnoreCase);
+
+            listBox1.Items.Clear();
+            foreach (var st in query)
+            {
+                listBox1.Items.Add(st.Key);
+                foreach (var subSt in st)
+                {
+                    listBox1.Items.Add("\t" + subSt.FirstName);
+                }
+            }
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            //expression
+            //group by
+            var query = from st in _studentList
+                        group st by st.Age;
+
+            //این کد هم صحیح است
+            //var query = from st in studentList
+            //            group st by st.Age into st_group
+            //            select st_group;
+
+            listBox1.Items.Clear();
+            foreach (var st in query)
+            {
+                listBox1.Items.Add(st.Key);
+                foreach (var subSt in st)
+                {
+                    listBox1.Items.Add("\t" + subSt.FirstName);
+                }
+            }
+
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            //operator
+            //take
+            var query = _studentList.Take(3);
+            dataGridView1.DataSource = query.ToList();
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            //operator
+            //skip
+            var query = _studentList.Skip(2);
+            dataGridView1.DataSource = query.ToList();
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            //paging
+
+            var query = _studentList.Skip(_page * _pageSize).Take(_pageSize);
+            _page = (_page + 1) % _studentList.Count;
+            dataGridView1.DataSource = query.ToList();
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            //typeof
+            ArrayList myArrayList = new ArrayList();
+            myArrayList.Add("ali ali2");
+            myArrayList.Add(10);
+            myArrayList.Add(null);
+            myArrayList.Add("reza rezai");
+
+            var query = myArrayList.OfType<string>();
+
+            //dataGridView1.DataSource = query.ToList();
+
+            listBox1.Items.Clear();
+            foreach (var x in query)
+            {
+                listBox1.Items.Add(x);
+            }
+
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            //join
+            var query = from st in _studentList
+                        join co in _courseList
+                        on st.Id equals co.StudentId_Fk
+                        where st.Id == 1
+                        select new { st.Id, st.FirstName, st.lastName, co.CourseTitle, co.Number };
+            dataGridView1.DataSource = query.ToList();
+
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            //outer join
+            var leftOuterJoin = from st in _studentList
+                                join co in _courseList
+                                on st.Id equals co.StudentId_Fk into sc
+                                from sub in sc.DefaultIfEmpty()
+                                select new
+                                {
+                                    stId = st.Id,
+                                    stFirstName = st.FirstName,
+                                    cTitle = (sub == null ? string.Empty : sub.CourseTitle),
+                                    stNumber = (sub == null ? 0 : sub.Number)
+                                };
+
+            var rightOuterJoin = from co in _courseList
+                                 join st in _studentList
+                                 on co.StudentId_Fk equals st.Id into sc
+                                 from sub in sc.DefaultIfEmpty()
+                                 select new
+                                 {
+                                     stId = (sub == null ? 0 : sub.Id),
+                                     stFirstName = (sub == null ? string.Empty : sub.FirstName),
+                                     cTitle = co.CourseTitle,
+                                     stNumber = co.Number
+                                 };
+
+            var fullOuterJoin = leftOuterJoin.Union(rightOuterJoin);
+
+
+            dataGridView1.DataSource = leftOuterJoin.ToList();
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            //concat
+            int[] arrayA = new int[3] { 1, 2, 3 };
+            int[] arrayB = new int[3] { 4, 3, 5 };
+
+            var query = arrayA.Concat(arrayB).OrderBy(i => i).Distinct();
+
+            listBox1.Items.Clear();
+            foreach (var x in query)
+            {
+                listBox1.Items.Add(x);
+            }
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            //union
+            //آیتم های مشابه را تکرار نمیکند
+            int[] arrayA = new int[3] { 1, 2, 3 };
+            int[] arrayB = new int[3] { 4, 3, 5 };
+
+            var query = arrayA.Union(arrayB);
+
+            listBox1.Items.Clear();
+            foreach (var x in query)
+            {
+                listBox1.Items.Add(x);
+            }
+        }
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            //intersect اشتراک
+            int[] arrayA = new int[3] { 1, 2, 3 };
+            int[] arrayB = new int[3] { 4, 3, 5 };
+
+            var query = arrayA.Intersect(arrayB);
+
+            listBox1.Items.Clear();
+            foreach (var x in query)
+            {
+                listBox1.Items.Add(x);
+            }
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+            //except
+            int[] arrayA = new int[3] { 1, 2, 3 };
+            int[] arrayB = new int[3] { 4, 3, 5 };
+
+            var query = arrayA.Except(arrayB);
+
+            listBox1.Items.Clear();
+            foreach (var x in query)
+            {
+                listBox1.Items.Add(x);
+            }
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            //first  last
+            int[] a = new int[5] { 1, 2, 3, 4, 5 };
+            var query = a.First(x => x > 3);
+            //var query = a.FirstOrDefault(x => x > 3);
+            //var query = a.Last(x => x > 3);
+            //var query = a.LastOrDefault(x => x > 3);
+            MessageBox.Show(query.ToString());
+        }
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+            //sequenceEqual
+            string[] strA = new string[3] { "a", "b", "c" };
+            string[] strB = new string[3] { "a", "b", "c" };
+            bool result = strA.SequenceEqual(strB);
+            MessageBox.Show(result.ToString());
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            //zip
+            int[] A = new int[3] { 1, 2, 3 };
+            int[] B = new int[3] { 100, 200, 300 };
+
+            var query = A.Zip(B, (i, j) => i * j);
+
+            listBox1.Items.Clear();
+            foreach (var x in query)
+            {
+                listBox1.Items.Add(x);
+            }
+        }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            //toLookup   شبیه گروپ بای است
+            //با این تفاوت کد گروپ بای لیزی اودینگ است اما ای نلیزی لودینگ نیست
+            var query = _studentList.ToLookup(st => st.Age);
+
+            var query2 = _studentList.GroupBy(st => st.Age);
+            _studentList.Add(new Student { Id = 100, FirstName = "asgar", lastName = "asgari", Age = 40 });
+
+            listBox1.Items.Clear();
+            foreach (var x in query)//از کوئری2 هم استفاده کن تا تفاوتش را ببینی
+            {
+                listBox1.Items.Add(x.Key);
+                foreach (var s in x)
+                {
+                    listBox1.Items.Add("\t" + s.FirstName);
+                }
+            }
+        }
+
+        private void button25_Click(object sender, EventArgs e)
+        {
+            // دستور درست است
+            //var query = from st in _studentList
+            //            from sk in st.Skills
+            //            where sk.contains("c++")
+            //            select st;
+        }
+
+        private void button26_Click(object sender, EventArgs e)
+        {
+            //operator
+            //directory
+            var query = Directory.GetDirectories(@"c:\")
+                .Where(p => p.Length < 12).OrderBy(p => p.Length);
+            listBox1.Items.Clear();
+            foreach (var x in query)
+            {
+                listBox1.Items.Add(x);
+            }
+        }
+
+        private void button27_Click(object sender, EventArgs e)
+        {
+            //expression
+            //directory
+            var query = from dir in Directory.GetDirectories(@"c:\")
+                        where dir.Length < 12
+                        orderby dir.Length
+                        select dir;
+
+            listBox1.Items.Clear();
+            foreach (var x in query)
+            {
+                listBox1.Items.Add(x);
+            }
+        }
+
+        private void button28_Click(object sender, EventArgs e)
+        {
+
+            //sum
+            //operator
+            var query = _studentList.Sum(x => x.Age);
+            //or
+            var query2 = _studentList.Select(x => x.Age).Sum();
+
+            //expression
+            var query3 = from n in _studentList
+
+                         select new { SumAge = n.Age };
+
+            MessageBox.Show(query3.ToString());
+        }
+    }
+}
