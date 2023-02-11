@@ -246,13 +246,28 @@ namespace Linq_WinFormsApp_Net
 
         private void button15_Click(object sender, EventArgs e)
         {
-            //join
-            var query = from st in _studentList
+            //join operator
+            var query = _studentList.Join(_courseList,
+                _studentList => _studentList.Id,
+                _courseList => _courseList.StudentId_Fk,
+                (_studentList, _courseList) => new {
+                    code = _studentList.Id,
+                    name = _studentList.FirstName + " " + _studentList.lastName,
+                    dars = _courseList.CourseTitle,
+                    num = _courseList.Number
+                });
+
+            dataGridView1.DataSource = query.ToList();
+
+
+            //join experssion
+            var query2 = from st in _studentList
                         join co in _courseList
                         on st.Id equals co.StudentId_Fk
                         where st.Id == 1
                         select new { st.Id, st.FirstName, st.lastName, co.CourseTitle, co.Number };
             dataGridView1.DataSource = query.ToList();
+            
 
         }
 
