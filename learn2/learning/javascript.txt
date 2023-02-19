@@ -367,7 +367,7 @@ const x = 2;
 
 //JavaScript Assignment
 //The &&= Operator
-//If the first value is false, the second value is assigned:
+//If the first value is true, the second value is assigned:
 let x = 100;
 x &&= 5;
 //result x=5
@@ -1013,8 +1013,168 @@ x.toFixed(2); //return 9.65
 x.toFixed(4);  //return 9.6560
 x.toFixed(6);
 
+//The toPrecision() Method  //با دقت
+//toPrecision() returns a string, with a number written with a specified length:
+let x = 9656;
+x.toPrecision();   //return 9656
+x.toPrecision(2);  //return 9.7e+3
+x.toPrecision(4);  //return 9656
+x.toPrecision(6);  //return 9656.00
+
+//The valueOf() Method
+//valueOf() returns a number as a number.
+//In JavaScript, a number can be a primitive value (typeof = number) or an object (typeof = object).
+//The valueOf() method is used internally in JavaScript to convert Number objects to primitive values.
+//There is no reason to use it in your code.
+let x = 123;
+x.valueOf();
+(123).valueOf();
+(100 + 23).valueOf();
+----
+let x = new Number(9656);
+let y = x.valueOf();
+typeof x;  //return object  
+typeof y;  //return number
+
+//Converting Variables to Numbers
+//There are 3 JavaScript methods that can be used to convert a variable to a number:
+//Method		Description
+//Number()	Returns a number converted from its argument.
+//parseFloat()	Parses its argument and returns a floating point number
+//parseInt()		Parses its argument and returns a whole number
+
+//The Number() Method
+//The Number() method can be used to convert JavaScript variables to numbers:
+Number(true);  //return 1
+Number(false);  //return 0
+Number("10");
+Number("  10");
+Number("10  ");
+Number(" 10  ");
+Number("10.33");
+Number("10,33");
+Number("10 33");
+Number("John");  //return NaN
+//If the number cannot be converted, NaN (Not a Number) is returned.
+
+//The Number() Method Used on Dates
+let x = Number(new Date());    //return 1676824023035
+
+//The parseInt() Method
+//parseInt() parses a string and returns a whole number. Spaces are allowed.
+//Only the first number is returned:
+parseInt("-10");  //return -10
+parseInt("-10.33");  //return -10
+parseInt("10");
+parseInt("10.33");
+parseInt("10 20 30");  //returtn 10
+parseInt("10 years");  //return 10
+parseInt("years 10");  //return NaN
+//If the number cannot be converted, NaN (Not a Number) is returned.
+
+//The parseFloat() Method
+//parseFloat() parses a string and returns a number. Spaces are allowed. Only the first number is returned:
+parseFloat("10");	//return 10
+parseFloat("10.33");	//return 10.33
+parseFloat("10 20 30");	//return 10
+parseFloat("10 years");	//return 10
+parseFloat("years 10");	//return Nan
+//If the number cannot be converted, NaN (Not a Number) is returned.
+
+//Number Object Methods
+//These object methods belong to the Number object:
+//Method		Description
+//Number.isInteger()	Returns true if the argument is an integer
+//Number.isSafeInteger()	Returns true if the argument is a safe integer
+//Number.parseFloat()	Converts a string to a number
+//Number.parseInt()	Converts a string to a whole number
+-----
+//These methods can only be accessed like Number.isInteger().
+//Using X.isInteger() where X is a variable, will result in an error:
+
+//The Number.isInteger() Method
+//The Number.isInteger() method returns true if the argument is an integer.
+let x = 20;
+let y = Number.isInteger(x);  //return true  
+let a = 20.235
+let b = Number.isInteger(a);  //return false
+
+//The Number.isSafeInteger() Method
+//A safe integer is an integer that can be exactly represented as a double precision number.
+//The Number.isSafeInteger() method returns true if the argument is a safe integer.
+Number.isSafeInteger(10);   //return true
+Number.isSafeInteger(12345678901234567890); //return false
+//Safe integers are all integers from -(253 - 1) to +(253 - 1).
+//This is safe: 9007199254740991. This is not safe: 9007199254740992.
+
+//The Number.parseFloat() Method
+//Number.parseFloat() parses a string and returns a number.
+//Spaces are allowed. Only the first number is returned:
+Number.parseFloat("10");	//return 10
+Number.parseFloat("10.33");	//return 10.33
+Number.parseFloat("10 20 30");	//return 10
+Number.parseFloat("10 years");	//return 10
+Number.parseFloat("years 10");	//return NaN
+//If the number cannot be converted, NaN (Not a Number) is returned.
+
+//The Number.parseInt() Method
+//Number.parseInt() parses a string and returns a whole number.
+//Spaces are allowed. Only the first number is returned:
+Number.parseInt("-10");	//return -10
+Number.parseInt("-10.33");	//return -10
+Number.parseInt("10");
+Number.parseInt("10.33");
+Number.parseInt("10 20 30");	//return 10
+Number.parseInt("10 years");	//return 10
+Number.parseInt("years 10");	//return Nan
 -----------------------------------------------------------------------------------------------------------------------------
-escape----------------------------
+
+//JavaScript Number Properties
+//Property			Description
+//EPSILON		The difference between 1 and the smallest number > 1.
+//MAX_VALUE		The largest number possible in JavaScript
+//MIN_VALUE		The smallest number possible in JavaScript
+//MAX_SAFE_INTEGER	The maximum safe integer (253 - 1)
+//MIN_SAFE_INTEGER	The minimum safe integer -(253 - 1)
+//POSITIVE_INFINITY	Infinity (returned on overflow)
+//NEGATIVE_INFINITY	Negative infinity (returned on overflow)
+//NaN			A "Not-a-Number" value
+
+//JavaScript EPSILON
+//Number.EPSILON is the difference between 1 and the smallest floating point number greater than 1.
+Number.EPSILON	//return 2.220446049250313e-16
+
+//JavaScript MAX_VALUE
+let x = Number.MAX_VALUE;
+
+//JavaScript MIN_VALUE
+//Number.MIN_VALUE is a constant representing the lowest possible number in JavaScript.
+
+//JavaScript MAX_SAFE_INTEGER
+//Number.MAX_SAFE_INTEGER represents the maximum safe integer in JavaScript.
+//Number.MAX_SAFE_INTEGER is (253 - 1).
+let x = Number.MAX_SAFE_INTEGER;
+
+//JavaScript MIN_SAFE_INTEGER
+//Number.MIN_SAFE_INTEGER represents the minimum safe integer in JavaScript.
+//Number.MIN_SAFE_INTEGER is -(253 - 1).
+let x = Number.MIN_SAFE_INTEGER;
+
+//JavaScript POSITIVE_INFINITY
+let x = Number.POSITIVE_INFINITY;	//return Infinity
+//POSITIVE_INFINITY is returned on overflow:
+let x = 1 / 0;
+
+//JavaScript NEGATIVE_INFINITY
+let x = Number.NEGATIVE_INFINITY;	//return -Infinity
+//NEGATIVE_INFINITY is returned on overflow:
+//let x = -1 / 0;
+
+//JavaScript NaN - Not a Number
+//NaN is a JavaScript reserved word for a number that is not a legal number.
+let x = Number.NaN;
+//Trying to do arithmetic with a non-numeric string will result in NaN (Not a Number):
+let x = 100 / "Apple";
 ------------------------------------------------------------------------------------------------------------------------------
 
 //JavaScript Arrays
@@ -1540,7 +1700,95 @@ fruits.includes("Mango"); // is true
 --------------------------------------------------------------------------------------------------------------
 
 //JavaScript Date Objects
-...
+const d = new Date();			//return Sun Feb 10 2020 .....
+const d = new Date("2022-03-25");	//return Fri Mar 25 2022 04...
+
+//JavaScript Date Output
+//By default, JavaScript will use the browser's time zone and display a date as a full text string:
+//Fri Mar 25 2022 04 21:20:54 ...
+
+//Creating Date Objects
+//Date objects are created with the new Date() constructor.
+//There are 9 ways to create a new date object:
+//new Date()
+//new Date(date string)
+//new Date(year,month)
+//new Date(year,month,day)
+//new Date(year,month,day,hours)
+//new Date(year,month,day,hours,minutes)
+//new Date(year,month,day,hours,minutes,seconds)
+//new Date(year,month,day,hours,minutes,seconds,ms)
+//new Date(milliseconds)
+//examples
+const d = new Date("October 13, 2014 11:13:00");
+const d = new Date("2022-03-25");
+const d = new Date(2018, 11, 24, 10, 33, 30, 0);
+
+//JavaScript counts months from 0 to 11:
+//January = 0.
+//December = 11.
+
+//Specifying a month higher than 11, will not result in an error but add the overflow to the next year:
+const d = new Date(2018, 15, 24, 10, 33, 30);
+//is the same as
+//const d = new Date(2019, 3, 24, 10, 33, 30);
+
+//Specifying a day higher than max, will not result in an error but add the overflow to the next month:
+const d = new Date(2018, 5, 35, 10, 33, 30);
+//Is the same as:
+const d = new Date(2018, 6, 5, 10, 33, 30);
+
+//Previous Century
+//One and two digit years will be interpreted as 19xx:
+const d = new Date(99, 11, 24);
+
+//JavaScript Stores Dates as Milliseconds
+//JavaScript stores dates as number of milliseconds since January 01, 1970.
+//Zero time is January 01, 1970 00:00:00 UTC.
+//One day (24 hours) is 86 400 000 milliseconds.
+//Now the time is: 1275826044822 milliseconds past January 01, 1970
+
+//new Date(milliseconds)
+//new Date(milliseconds) creates a new date object as milliseconds plus zero time:
+//01 January 1970 plus 100 000 000 000 milliseconds is:
+const d = new Date(100000000000);
+-----
+//January 01 1970 minus 100 000 000 000 milliseconds is:
+const d = new Date(-100000000000);
+
+//January 01 1970 plus 24 hours is:
+const d = new Date(24 * 60 * 60 * 1000);
+// or
+const d = new Date(86400000);
+
+//01 January 1970 plus 0 milliseconds is:
+const d = new Date(0);
+
+//Date Methods
+//When a date object is created, a number of methods allow you to operate on it.
+//Date methods allow you to get and set the year, month, day, hour, minute, second, and millisecond of date //objects, using either local time or UTC (universal, or GMT) time.
+
+//Displaying Dates
+//JavaScript will (by default) output dates in full text string format:
+//Sun Feb 19 2020 21:20:54 GMT+
+//When you display a date object in HTML, it is automatically converted to a string, with the toString() method.
+const d = new Date();
+d.toString();  //return Sun Feb 19 2020 21:20:54 GMT+
+-------
+//The toDateString() method converts a date to a more readable format:
+const d = new Date();
+d.toDateString();  //return Fri Dec 20 2019
+ ------
+//The toUTCString() method converts a date to a string using the UTC standard:
+const d = new Date();
+d.toUTCString();   //return Fri, 20 Dec 2019 00:00:00 GMT
+-------
+//he toISOString() method converts a date to a string using the ISO standard:
+const d = new Date();
+d.toISOString();   //return  2019-12-20T00:00:00.000Z
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
 
 
 
