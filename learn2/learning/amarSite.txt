@@ -1,0 +1,89 @@
+<!-- Statistics by www.1abzar.com --->
+<!-- http://www.1abzar.com/abzar/stat.php -->
+<script type="text/javascript" src="https://1abzar.ir/abzar/tools/stat/amar-v3.php?color=333333&bg=F7F4D9&kc=888888&kadr=1&amar=n8ub1k0qc6tp3n-l99m30vd7radfdl&show=1|1|1|1|0|1|1"></script><div style="display:none"><h3><a href="https://www.1abzar.com/abzar/stat.php">&#1570;&#1605;&#1575;&#1585;&#1711;&#1740;&#1585; &#1608;&#1576;&#1604;&#1575;&#1711;</a></h3></div>
+<!-- Statistics by www.1abzar.com --->
+<html>
+<head></head>
+<body>
+<p id='demo'></p>
+<div class="input-group">
+    <input type="search" class="form-control rounded" placeholder="جستجو" aria-label="جستجو" aria-describedby="search-addon" />
+    <button type="button" class="btn btn-outline-primary">جستجو</button>
+  </div>
+<script>
+document.getElementById('demo').innerHTML = myFunction();
+function myFunction() { 
+    var result = '';
+     if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ) 
+    {
+        result ='Opera';
+    }
+    else if(navigator.userAgent.indexOf("Edg") != -1 )
+    {
+        result ='Edge';
+    }
+    else if(navigator.userAgent.indexOf("Chrome") != -1 )
+    {
+        result ='Chrome';
+    }
+    else if(navigator.userAgent.indexOf("Safari") != -1)
+    {
+        result ='Safari';
+    }
+    else if(navigator.userAgent.indexOf("Firefox") != -1 ) 
+    {
+        result ='Firefox';
+    }
+    else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
+    {
+        result ='IE'; 
+    }  
+    else 
+    {
+        result ='unknown';
+    }
+    return result;
+    }
+//------------------------------
+ function browserDetect() {
+       // Opera 8.0+
+var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+
+// Firefox 1.0+
+var isFirefox = typeof InstallTrigger !== 'undefined';
+
+// Safari 3.0+ "[object HTMLElementConstructor]" 
+var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
+
+// Internet Explorer 6-11
+var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+// Edge 20+
+var isEdge = !isIE && !!window.StyleMedia;
+
+// Chrome 1 - 79
+var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+
+// Edge (based on chromium) detection
+var isEdgeChromium = isChrome && (navigator.userAgent.indexOf("Edg") != -1);
+
+// Blink engine detection
+var isBlink = (isChrome || isOpera) && !!window.CSS;
+
+
+var output = 'Detecting browsers by ducktyping:<hr>';
+output += 'isFirefox: ' + isFirefox + '<br>';
+output += 'isChrome: ' + isChrome + '<br>';
+output += 'isSafari: ' + isSafari + '<br>';
+output += 'isOpera: ' + isOpera + '<br>';
+output += 'isIE: ' + isIE + '<br>';
+output += 'isEdge: ' + isEdge + '<br>';
+output += 'isEdgeChromium: ' + isEdgeChromium + '<br>';
+output += 'isBlink: ' + isBlink + '<br>';
+//document.body.innerHTML = output;
+return output;
+    };
+    
+</script>
+</body>
+</html>
