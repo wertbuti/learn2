@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Sso</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body>
+  <app-root></app-root>
+  <div style="width:200px">
+    <div class="row">
+      <div class="col" id="countryPlace"></div>
+      <div class="col">کشور شما</div>
+    </div>
+    <div class="row">
+      <div class="col" id="IPPalce"></div>
+      <div class="col">آی پی شما</div>
+    </div>
+    <div class="row">
+      <!-- Statistics by www.1abzar.com --->
+<script type="text/javascript" src="https://1abzar.ir/abzar/tools/stat/amar-v3.php?color=333333&bg=FFFFFF&kc=888888&kadr=1&amar=81megpt-xdmo-2pm-mosen5oc4cwzs&show=1|1|1|1|0|1|1"></script><div style="display:none"><h3><a href="https://www.1abzar.com/abzar/stat.php">&#1570;&#1605;&#1575;&#1585;&#1711;&#1740;&#1585; &#1608;&#1576;&#1604;&#1575;&#1711;</a></h3></div>
+<!-- Statistics by www.1abzar.com --->
+    </div>
+  </div>
+
+
+  <!-- <script type="text/javascript">
+fetch('https://api.ipregistry.co/?key=tryout')
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (payload) {
+      //document.getElementById('demo').innerHTML = (new Date()).toString().split('(')[1].split(" ")[0] + ' ' +Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[1];
+        //console.log(payload.location.country.name + ', ' + payload.location.city);
+    });
+
+
+
+    $clickMeElement.click(function() {
+    alert('I hate tomatoes.');
+}); 
+//</script>-->
+  <!-- <p id="demo"></p>
+  <p id="demo1"></p>
+  <div>کشور شما</div> -->
+  <script type="text/javascript">
+    document.getElementById('countryPlace').innerHTML = (new Date()).toString().split('(')[1].split(" ")[0] + ' ' + Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[1];
+  </script>
+
+
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script>
+    $clickMeElement.click(function () {
+      alert('I hate tomatoes.');
+    });
+    $(document).ready(function () {
+      $("p").click(function () {
+        $(this).hide();
+      });
+    });
+  </script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+    $.getJSON("https://api.ipify.org/?format=json", function (e) {
+      document.getElementById('IPPalce').innerHTML = e.ip;
+      console.log(e.ip);
+    });
+  </script>
+  <!-- 
+  <p>If you click on me, I will disappear.</p>
+  <p>Click me away!</p>
+  <p>Click me too!</p> -->
+</body>
+
+</html>
