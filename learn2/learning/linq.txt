@@ -256,6 +256,20 @@ namespace Linq_WinFormsApp_Net
                     dars = _courseList.CourseTitle,
                     num = _courseList.Number
                 });
+                
+            //var query = students.Join(lessons,
+            //    students => students.Id,
+            //    lessons => lessons.StudentId,
+            //    (students, lessons) => new StudentLesson
+            //    {
+            //        studentId = students.Id,
+            //        StudentName = students.Name,
+            //        LessonId = lessons.Id,
+            //        LessonTitle = lessons.Title,
+            //        LessonStudentId = lessons.StudentId,
+            //        LessonNum = lessons.Num
+            //    }
+            //    ).ToList();
 
             dataGridView1.DataSource = query.ToList();
 
