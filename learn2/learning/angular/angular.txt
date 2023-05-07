@@ -1035,7 +1035,251 @@ it("check firstname",()=>{
 57-new feature
 stand alone component
 ng g c mycomp --standalone
------------------------------------
+----------------------------------------------
+----------------------------------------------
+styles.css
+---
+.highlighted-text{
+    background-color: blue;
+    color: white;
+}
+----------------------------------------------
+app.module.ts
+----
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
+import { HighlighterPipe } from './highlighter.pipe';
+import { NazarSanjiComponent } from './nazar-sanji/nazar-sanji.component';
+import { NazarsanjiService } from './nazarsanji.service';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    HighlighterPipe,
+    NazarSanjiComponent
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule
+  ],
+  providers: [NazarsanjiService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+----------------------------------------------
+app-routing.module.ts
+-------
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { NazarSanjiComponent } from './nazar-sanji/nazar-sanji.component';
+
+const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: 'nazarsanji', component: NazarSanjiComponent },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+---------------------------------------------
+home.component.html
+-----
+<p>home works!</p>
+
+  <div class="input-group">
+    <div class="form">
+      <input type="search" class="form-control"/>
+    </div>
+    <a routerLink="/nazarsanji"><button class="btn btn-primary" > جستجو2 </button></a>
+  </div>
+  <router-outlet></router-outlet>
+--------------------------------------------
+home.component.ts
+--------
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent {
+
+  constructor() { }
+  ngOnInit() {
+  }
+}
+------------------------------------------
+nazar-sanji.component.html
+--------
+<!-- <p>nazar-sanji works!</p> -->
+<div class="container pt-5">
+    <div class="input-group">
+        <div class="form">
+          <input type="search" id="form1" class="form-control" [(ngModel)]="searchText" />
+        </div>
+        <button type="submit" class="btn btn-primary">جستجو</button>
+      </div>
+      <div class="text-contaniner" [innerHtml]="text | highlighter:searchText"  ></div>
+    <div class="card mt-5">
+        <div class="card-body">
+            <h5 class="card-header d-flex flex-row mb-4">نظر سنجی</h5>
+            <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm.value)" class="needs-validation" novalidate>
+                <div class="form-group">
+                    <!-- <label for="exampleInputEmail1" class="d-flex flex-row">نام</label> -->
+                    <input class="form-control" id="name" name="name" #name="ngModel" ngModel
+                         placeholder="نام" required>
+                    <span *ngIf="name.invalid && name.touched" 
+                    style="color:red;float: right;">لطفا نام خود را وارد نمایید</span>
+                </div>
+                <div class="form-group">
+                    <!-- <label for="exampleInputEmail1" class="d-flex flex-row">ایمیل</label> -->
+                    <input class="form-control" id="email" name="email" #email="ngModel" ngModel
+                      placeholder="ایمیل" required>
+                     <span *ngIf="email.invalid && email.touched" 
+                    style="color:red;float: right;">لطفا ایمیل خود را وارد نمایید</span>
+                </div>
+                <div class="form-group">
+                    <!-- <label for="exampleInputPassword1" class="d-flex flex-row">نظر شما</label> -->
+                    <textarea rows="10" class="form-control" id="nazar" name="nazar" #nazar="ngModel" ngModel
+                     placeholder="نظر شما" required></textarea>
+                     <span *ngIf="nazar.invalid && nazar.touched" 
+                    style="color:red;float: right;">لطفا نظر خود را وارد نمایید</span>
+                </div>
+                <button type="submit" [disabled]="myForm.invalid" class="btn btn-primary d-flex flex-row">ارسال</button>
+            </form>
+            <div>
+                <span>تعداد کل بازدید</span>{{kolBazdid}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div>
+    <div>
+        <h1>{{data}}</h1>
+    </div>
+    <div>
+        نام<input type="text" value="ali">
+    </div>
+    <div>
+        ایمیل<input type="text" value="ali@yahoo.com">
+    </div>
+    <div>
+        نظر شما
+        <textarea name="" id="" cols="30" rows="10">salam</textarea>
+    </div>
+    <div><input type="button" value="ارسال"></div>
+</div> -->
+--------------------------------------------------------------
+nazar-sanji.component.ts
+--------
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { NazarsanjiService } from '../nazarsanji.service';
+
+@Component({
+  selector: 'app-nazar-sanji',
+  templateUrl: './nazar-sanji.component.html',
+  styleUrls: ['./nazar-sanji.component.css']
+})
+export class NazarSanjiComponent {
+  
+  http: any;
+
+  constructor(private nazarsanjiService: NazarsanjiService) {
+    this.showNazarsanji();
+  }
+  onSubmit(data:any): void {
+    alert(data.name);
+  }
+
+  searchText='';
+  text=`سلام بر شما باد`;
+
+  kolBazdid = '1000';
+  showNazarsanji() {
+    
+    //return this.http.get('https://localhost:7093/Nazarsanji?id=1');
+
+    // this.nazarsanjiService.getConfig()
+    //   .subscribe((res: any) => {
+    //     this.data = res.Name;//JSON.parse(res.toString());
+    //   });
+  }
+
+}
+
+---------------------------------------------------------------
+nazarsanji.service.ts
+---------
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class NazarsanjiService {
+
+  constructor(private http: HttpClient) { }
+
+  configUrl = 'assets/config.json';
+
+   getConfig() {
+    //return this.http.get<string>(this.configUrl);
+    return this.http.get('https://localhost:7093/Nazarsanji?id=1');
+   }
+
+
+}
+
+--------------------------------------------------------------
+highlighter.pipe.ts
+-------------
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'highlighter'
+})
+export class HighlighterPipe implements PipeTransform {
+
+  // ng g pipe highlighter
+
+  // transform(value: any, args: any): unknown {
+  //   if(!args) return value;
+  //     const re = new RegExp("\\b("+args+"\\b)", 'igm');
+  //     value= value.replace(re, '<span class="highlighted-text">$1</span>');
+  //     return value;
+  // }
+
+  transform(value: any, args: any): unknown {
+    if(!args) return value;
+    debugger;
+      const re = new RegExp(args, 'igm');
+      value= value.replace(re, '<span class="highlighted-text">'+re.source+'</span>');
+      return value;
+  }
+
+
+}
+
+-------------------------------------------------
 
 
 
